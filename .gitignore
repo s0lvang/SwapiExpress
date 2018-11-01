@@ -96,7 +96,6 @@ Desktop.ini
 
 # npm
 node_modules
-package-lock.json
 *.log
 *.gz
 
@@ -104,3 +103,5 @@ package-lock.json
 # Coveralls
 coverage
 
+#babel
+dist
