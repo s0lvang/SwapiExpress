@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 mongoose.connect('mongodb://localhost/swapi')
   .then(() => console.log('database connected'))
-  .catch(() => console.log('could not connect to database :('));
+  .catch(error => console.log('could not connect to database :('));
 
 
 const port = 8080;
