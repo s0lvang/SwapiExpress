@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "pallarsen",
+    "password": null,
+    "database": "swapi",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "pallarsen",
+    "password": null,
+    "database": "swapi",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "pallarsen",
+    "password": null,
+    "database": "swapi",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
