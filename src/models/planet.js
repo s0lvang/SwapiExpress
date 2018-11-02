@@ -1,5 +1,5 @@
 export default (sequelize, DataTypes) => {
-  const Planet = sequelize.define('Planets', {
+  const Planet = sequelize.define('Planet', {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
