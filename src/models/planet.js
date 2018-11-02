@@ -1,42 +1,49 @@
-const mongoose = require('mongoose');
-
-mongoose.Promise = global.Promise;
-
-const planetSchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
-  name: {
-    type: String,
-    required: true,
+export default (sequelize, DataTypes) => {
+  const Planet = sequelize.define('Planets', {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+    },
+    climate: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    surface_water: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    diameter: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    rotation_period: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    terrain: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    gravity: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    orbital_period: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    population: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
-  rotationPeriod: {
-    type: String,
-  },
-
-  orbital_period: {
-    type: String,
-  },
-  diameter: {
-    type: String,
-  },
-
-  climate: {
-    type: String,
-  },
-
-  gravity: {
-    type: String,
-  },
-  terrain: {
-    type: String,
-  },
-
-  surface_water: {
-    type: String,
-  },
-  population:
   {
-    type: String,
-  },
-});
-
-module.exports = mongoose.model('Planet', planetSchema);
+    timestamps: false,
+  });
+  return Planet;
+};

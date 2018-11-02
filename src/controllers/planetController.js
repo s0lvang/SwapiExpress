@@ -1,6 +1,6 @@
-const Planet = require('../models').Planets;
+import Planet from '../models/planet';
 
-module.exports = {
+export default {
   create(req, res) {
     return Planet
       .create({
