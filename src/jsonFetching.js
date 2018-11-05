@@ -1,6 +1,5 @@
 const fetch = require('node-fetch');
 const axios = require('axios');
-const PlanetSchema = require('./models/planet.js');
 
 const planetLink = 'https://raw.githubusercontent.com/phalt/swapi/master/resources/fixtures/planets.json';
 const planetApi = 'http://localhost:8000/api/planets';
@@ -36,7 +35,7 @@ const parsePlanet = (planet) => {
     orbital_period: fields.orbital_period,
     population: fields.population,
   };
-  console.log("POSTING ....");
+  console.log('POSTING ....');
   postPlanet(processedPlanet);
   return processedPlanet;
 };

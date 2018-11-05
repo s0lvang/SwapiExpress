@@ -5,7 +5,7 @@ const film = (sequelize, DataTypes) => {
       allowNull: false,
     },
   });
-  Film.associate = (models) => {
+  Film.associate = () => { // this should take in models
     // associations can be defined here
   };
   return Film;
