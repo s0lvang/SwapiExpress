@@ -105,3 +105,4 @@ coverage
 
 #babel
 dist
+src/config/config.json

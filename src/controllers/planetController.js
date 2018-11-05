@@ -1,4 +1,7 @@
-import Planet from '../models/planet';
+import db from '../models/index';
+
+const { Planet } = db;
+
 
 export default {
   create(req, res) {
