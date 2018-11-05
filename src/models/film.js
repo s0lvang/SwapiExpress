@@ -1,49 +1,14 @@
-import mongoose from 'mongoose';
+const film = (sequelize, DataTypes) => {
+  const Film = sequelize.define('Film', {
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  });
+  Film.associate = () => { // this should take in models
+    // associations can be defined here
+  };
+  return Film;
+};
 
-const filmSchema = new mongoose.Schema({
-  starships: {
-    type: [
-      { type: mongoose.Schema.ObjectId, ref: 'Starship' },
-    ],
-  },
-  vehicles: {
-    type: [
-      { type: mongoose.Schema.ObjectId, ref: 'Vehicle' },
-    ],
-  },
-  planets: {
-    type: [
-      { type: mongoose.Schema.ObjectId, ref: 'Planet' },
-    ],
-  },
-  producer: {
-    type: String,
-  },
-  title: {
-    type: String,
-  },
-  episode_id: {
-    type: Number,
-  },
-  director: {
-    type: String,
-  },
-  release_date: {
-    type: Date,
-  },
-  opening_crawl: {
-    type: String,
-  },
-  characters: {
-    type: [
-      { type: mongoose.Schema.ObjectId, ref: 'Character' },
-    ],
-  },
-  species: {
-    type: [
-      { type: mongoose.Schema.ObjectId, ref: 'Species' },
-    ],
-  },
-});
-
-export default mongoose.model('Film', filmSchema);
+export default film;

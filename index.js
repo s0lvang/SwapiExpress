@@ -1,16 +1,25 @@
 import express from 'express';
+import logger from 'morgan';
 import bodyParser from 'body-parser';
-import mongoose from 'mongoose';
+import routes from './src/routes';
 
+
+// Set up the express app
 const app = express();
+app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
-mongoose.connect('mongodb://localhost/swapi')
-  .then(() => console.log('database connected'))
-  .catch(() => console.log('could not connect to database :('));
+routes(app); // Set up routes
 
 
-const port = 8080;
+app.get('*', (req, res) => res.status(200).send({
+  message: 'Welcome to the beginning of nothingness.',
+}));
+
+// Setup a default catch-all route that sends back a welcome message in JSON format.
+
+
+const port = parseInt(process.env.PORT, 10) || 8000;
+app.set('port', port);
 
 app.listen(port, () => console.log(`server running at ${port}`));
