@@ -5,7 +5,6 @@ const planetLink = 'https://raw.githubusercontent.com/phalt/swapi/master/resourc
 const planetApi = 'http://localhost:8000/api/planets';
 
 const postPlanet = (planet) => {
-  console.log(planet);
   axios.post(planetApi, {
     ...planet,
   })
@@ -14,7 +13,7 @@ const postPlanet = (planet) => {
       console.log(res);
     })
     .catch((error) => {
-      console.error(error);
+      console.error(error.response);
     });
 };
 
@@ -35,12 +34,11 @@ const parsePlanet = (planet) => {
     orbital_period: fields.orbital_period,
     population: fields.population,
   };
-  console.log('POSTING ....');
   postPlanet(processedPlanet);
   return processedPlanet;
 };
 
-const planetPromise = new Promise((resolve) => {
+const planetPromise = new Promise((resolve, reject) => {
   resolve(fetch(planetLink)
     .then(res => res.json()));
 });
