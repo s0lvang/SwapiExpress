@@ -1,5 +1,5 @@
 const character = (sequelize, DataTypes) => {
-  const Species = sequelize.define('Species', {
+  const Character = sequelize.define('Character', {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -30,11 +30,12 @@ const character = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
     },
   });
-  Species.associate = () => {
-    // this should take in models
-    // associations can be defined here
+  Character.associate = (models) => {
+    const { Planet } = models;
+    Character.belongsTo(Planet, { as: 'homeworld' });
   };
-  return Species;
+
+  return Character;
 };
 
 export default character;

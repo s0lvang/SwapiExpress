@@ -33,9 +33,10 @@ const species = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
     },
   });
-  Species.associate = () => {
-    // this should take in models
-    // associations can be defined here
+  Species.associate = (models) => {
+    const { Character, Planet } = models;
+    Species.hasMany(Character, { as: 'people' });
+    Species.belongsTo(Planet, { as: 'homeworld' });
   };
   return Species;
 };

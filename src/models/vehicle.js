@@ -39,9 +39,10 @@ const vehicle = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
     },
   });
-  Vehicle.associate = () => {
-    // this should take in models
-    // associations can be defined here
+  Vehicle.associate = (models) => {
+    const { Character } = models;
+    Vehicle.belongsToMany(Character, { as: 'pilots', through: 'VehicleCharacter' });
+    Character.belongsToMany(Vehicle, { as: 'vehicles', through: 'VehicleCharacter' });
   };
   return Vehicle;
 };

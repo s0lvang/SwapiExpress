@@ -1,5 +1,5 @@
 const starship = (sequelize, DataTypes) => {
-  const Starship = sequelize.define('Vehicle', {
+  const Starship = sequelize.define('Starship', {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -41,7 +41,9 @@ const starship = (sequelize, DataTypes) => {
 
   });
   Starship.associate = (models) => {
-
+    const { Character } = models;
+    Starship.belongsToMany(Character, { as: 'pilots', through: 'VehicleCharacter' });
+    Character.belongsToMany(Starship, { as: 'ships', through: 'VehicleCharacter' });
   };
   return Starship;
 };

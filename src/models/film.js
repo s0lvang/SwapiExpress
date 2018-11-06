@@ -25,9 +25,24 @@ const film = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
     },
   });
-  Film.associate = () => {
-    // this should take in models
-    // associations can be defined here
+  Film.associate = (models) => {
+    const {
+      Starship, Species, Character, Vehicle, Planet,
+    } = models;
+    Film.belongsToMany(Starship, { through: 'FilmStarship' });
+    Starship.belongsToMany(Film, { through: 'FilmStarship' });
+
+    Film.belongsToMany(Planet, { through: 'FilmPlanet' });
+    Planet.belongsToMany(Film, { through: 'FilmPlanet' });
+
+    Film.belongsToMany(Character, { through: 'FilmCharacter' });
+    Character.belongsToMany(Film, { through: 'FilmCharacter' });
+
+    Film.belongsToMany(Vehicle, { through: 'FilmVehicle' });
+    Vehicle.belongsToMany(Film, { through: 'FilmVehicle' });
+
+    Film.belongsToMany(Species, { through: 'FilmSpecies' });
+    Species.belongsToMany(Film, { through: 'FilmSpecies' });
   };
   return Film;
 };
