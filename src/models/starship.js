@@ -39,6 +39,9 @@ const starship = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
     },
 
+  },
+  {
+    timestamps: false,
   });
   Starship.associate = (models) => {
     const { Character } = models;

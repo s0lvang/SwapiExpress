@@ -29,6 +29,9 @@ const character = (sequelize, DataTypes) => {
     gender: {
       type: DataTypes.STRING,
     },
+  },
+  {
+    timestamps: false,
   });
   Character.associate = (models) => {
     const { Planet } = models;

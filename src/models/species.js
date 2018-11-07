@@ -32,6 +32,9 @@ const species = (sequelize, DataTypes) => {
     language: {
       type: DataTypes.STRING,
     },
+  },
+  {
+    timestamps: false,
   });
   Species.associate = (models) => {
     const { Character, Planet } = models;

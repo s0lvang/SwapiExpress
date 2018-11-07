@@ -38,6 +38,9 @@ const vehicle = (sequelize, DataTypes) => {
     consumables: {
       type: DataTypes.STRING,
     },
+  },
+  {
+    timestamps: false,
   });
   Vehicle.associate = (models) => {
     const { Character } = models;

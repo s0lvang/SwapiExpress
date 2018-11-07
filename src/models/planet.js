@@ -10,7 +10,7 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
     },
     surface_water: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     name: {
@@ -18,11 +18,11 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
     },
     diameter: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     rotation_period: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     terrain: {
@@ -34,11 +34,11 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
     },
     orbital_period: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     population: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },
