@@ -1,8 +1,6 @@
 import db from '../models/index';
 
 const { Film } = db;
-const { Vehicle } = db;
-
 
 export default {
   create(req, res) {
