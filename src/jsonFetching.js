@@ -50,8 +50,8 @@ const iterateValues = (values, api) => {
   for (num in values) {
     value = parseValue(values[num], api);
   };
-}
-;
+};
+
 const filmPromise = new Promise((resolve) => {
   resolve(fetch(filmLink)
     .then(res => res.json()));

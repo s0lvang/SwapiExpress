@@ -11,6 +11,12 @@ const starship = (sequelize, DataTypes) => {
     model: {
       type: DataTypes.STRING,
     },
+    MGLT: {
+      type: DataTypes.STRING,
+    },
+    hyperdrive_rating: {
+      type: DataTypes.STRING,
+    },
     starship_class: {
       type: DataTypes.STRING,
     },
