@@ -6,7 +6,7 @@ module.exports = {
       primaryKey: true,
     },
     climate: {
-      type: Sequelize.STRING,
+      type: Sequelize.DataTypes.STRING,
       allowNull: false,
     },
     surface_water: {
@@ -14,7 +14,7 @@ module.exports = {
       allowNull: false,
     },
     name: {
-      type: Sequelize.STRING,
+      type: Sequelize.DataTypes.STRING,
       allowNull: false,
     },
     diameter: {

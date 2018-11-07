@@ -1,4 +1,3 @@
-
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.createTable('Films', {
     id: {
@@ -9,14 +8,22 @@ module.exports = {
     },
     title: {
       type: Sequelize.STRING,
-    },
-    createdAt: {
       allowNull: false,
-      type: Sequelize.DATE,
     },
-    updatedAt: {
-      allowNull: false,
-      type: Sequelize.DATE,
+    producer: {
+      type: Sequelize.STRING,
+    },
+    episode_id: {
+      type: Sequelize.INTEGER,
+    },
+    director: {
+      type: Sequelize.STRING,
+    },
+    release_date: {
+      type: Sequelize.STRING,
+    },
+    opening_crawl: {
+      type: Sequelize.TEXT,
     },
   }),
   down: (queryInterface, Sequelize) => queryInterface.dropTable('Films'),

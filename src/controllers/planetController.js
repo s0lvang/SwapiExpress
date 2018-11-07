@@ -24,7 +24,7 @@ export default {
   list(req, res) {
     return Planet
       .all()
-      .then(todos => res.status(200).send(todos))
+      .then(planet => res.status(200).send(planet))
       .catch(error => res.status(400).send(error));
   },
 };
