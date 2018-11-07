@@ -22,7 +22,7 @@ const film = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
     },
     opening_crawl: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
   },
   {
