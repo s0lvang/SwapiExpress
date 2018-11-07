@@ -25,15 +25,7 @@ const parsePlanet = (planet) => {
   delete fields.created;
   const processedPlanet = {
     id: planet.pk,
-    climate: fields.climate,
-    surface_water: fields.surface_water,
-    name: fields.name,
-    diameter: fields.diameter,
-    rotation_period: fields.rotation_period,
-    terrain: fields.terrain,
-    gravity: fields.gravity,
-    orbital_period: fields.orbital_period,
-    population: fields.population,
+    ...fields,
   };
   console.log('POSTING ....');
   postPlanet(processedPlanet);
