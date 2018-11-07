@@ -10,7 +10,7 @@ module.exports = {
       allowNull: false,
     },
     surface_water: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: false,
     },
     name: {
@@ -18,11 +18,11 @@ module.exports = {
       allowNull: false,
     },
     diameter: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: false,
     },
     rotation_period: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: false,
     },
     terrain: {
@@ -34,11 +34,11 @@ module.exports = {
       allowNull: false,
     },
     orbital_period: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: false,
     },
     population: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: false,
     },
   }),
