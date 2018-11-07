@@ -28,7 +28,7 @@ const post = (value, url) => {
       console.log(res);
     })
     .catch((error) => {
-      console.error(error);
+      console.error(error.response);
     });
 };
 
