@@ -23,7 +23,7 @@ const post = (value, url) => {
       console.log(`statusCode: ${res.statusCode}`);
     })
     .catch((error) => {
-
+      console.log(error);
     });
 };
 

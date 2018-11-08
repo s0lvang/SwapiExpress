@@ -1,5 +1,4 @@
 import db from '../models/index';
-import vehicle from '../models/vehicle';
 
 const { Vehicle } = db;
 
