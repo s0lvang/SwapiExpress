@@ -3,7 +3,8 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import routes from './src/routes';
-
+import 'babel-polyfill';
+import fillDatabase from './src/jsonFetching';
 
 // Set up the express app
 const app = express();
@@ -12,7 +13,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 routes(app); // Set up routes
-
+fillDatabase();
 
 app.get('*', (req, res) => res.status(200).send({
   message: 'Welcome to the beginning of nothingness.',
