@@ -5,25 +5,25 @@ const githubUrl = 'https://raw.githubusercontent.com/phalt/swapi/master/resource
 const apiUrl = 'http://localhost:8000/api/';
 
 const fixtures = [
-  "films",
-  "people",
-  "starships",
-  "vehicles",
-  "species",
-  "starships",
-  "planets",
+  'films',
+  'people',
+  'starships',
+  'vehicles',
+  'species',
+  'starships',
+  'planets',
 
-]
+];
 
 const post = (value, url) => {
   axios.post(url, {
     ...value,
   })
     .then((res) => {
-      //console.log(`statusCode: ${res.statusCode}`);
+      console.log(`statusCode: ${res.statusCode}`);
     })
     .catch((error) => {
-      console.error(error.response);
+      console.log(error);
     });
 };
 
@@ -41,13 +41,15 @@ const parseValue = (value, api) => {
 };
 
 const iterateValues = async (fixture) => {
-  const url = githubUrl + fixture + ".json"
+  const url = `${githubUrl + fixture}.json`;
   const values = await fetch(url).then(res => res.json());
-  for (num in values) {
-    value = parseValue(values[num], apiUrl+fixture);
-  };
+  Object.values(values).forEach(value => (
+    parseValue(value, apiUrl + fixture)
+  ));
 };
 
-fixtures.forEach((fixture) => {
-   iterateValues(fixture);
-})
+const fillDatabase = () => fixtures.forEach((fixture) => {
+  iterateValues(fixture);
+});
+
+export default fillDatabase;
