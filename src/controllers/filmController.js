@@ -1,8 +1,7 @@
-import Sequelize from 'sequelize';
+import { Op } from 'sequelize';
 import db from '../models/index';
 
 const { Film } = db;
-const Op = Sequelize.Op;
 
 export default {
   create(req, res) {
