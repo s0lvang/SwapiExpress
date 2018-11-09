@@ -22,7 +22,7 @@ app.get('*', (req, res) => res.status(200).send({
 // Setup a default catch-all route that sends back a welcome message in JSON format.
 
 
-const port = parseInt(process.env.PORT, 10) || 8000;
+const port = parseInt(process.env.PORT, 10) || 8080;
 app.set('port', port);
 
 app.listen(port, () => console.log(`server running at ${port}`));
