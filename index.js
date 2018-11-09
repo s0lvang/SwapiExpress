@@ -12,8 +12,8 @@ app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-routes(app); // Set up routes
-fillDatabase();
+routes(app);
+setTimeout(fillDatabase, 1000); // Set up routes
 
 app.get('*', (req, res) => res.status(200).send({
   message: 'Welcome to the beginning of nothingness.',
@@ -22,7 +22,7 @@ app.get('*', (req, res) => res.status(200).send({
 // Setup a default catch-all route that sends back a welcome message in JSON format.
 
 
-const port = parseInt(process.env.PORT, 10) || 8000;
+const port = parseInt(process.env.PORT, 10) || 8080;
 app.set('port', port);
 
 app.listen(port, () => console.log(`server running at ${port}`));

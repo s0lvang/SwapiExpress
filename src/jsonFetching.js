@@ -1,33 +1,28 @@
+import 'babel-polyfill';
+import db from './models/index';
+
 const fetch = require('node-fetch');
-const axios = require('axios');
 
 const githubUrl = 'https://raw.githubusercontent.com/phalt/swapi/master/resources/fixtures/';
-const apiUrl = 'http://localhost:8000/api/';
 
-const fixtures = [
-  'films',
-  'people',
-  'starships',
-  'vehicles',
-  'species',
-  'starships',
-  'planets',
+const fixtures = {
+  Transport: 'transport.json',
+  Film: 'films.json',
+  Character: 'people.json',
+  Vehicle: 'vehicles.json',
+  Species: 'species.json',
+  Starship: 'starships.json',
+  Planet: 'planets.json',
 
-];
-
-const post = (value, url) => {
-  axios.post(url, {
-    ...value,
-  })
-    .then((res) => {
-      console.log(`statusCode: ${res.statusCode}`);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
 };
 
-const parseValue = (value, api) => {
+const post = async (value, url) => {
+  const model = db[url];
+  console.log(Object.keys(db));
+  model.create(value);
+};
+
+const parseValue = async (value, api) => {
   const { fields } = value;
   delete fields.edited;
   delete fields.created;
@@ -35,21 +30,20 @@ const parseValue = (value, api) => {
     id: value.pk,
     ...fields,
   };
-  console.log('POSTING ....');
-  post(processedPlanet, api);
+  await post(processedPlanet, api);
   return processedPlanet;
 };
 
 const iterateValues = async (fixture) => {
-  const url = `${githubUrl + fixture}.json`;
+  const url = githubUrl + fixtures[fixture];
   const values = await fetch(url).then(res => res.json());
   Object.values(values).forEach(value => (
-    parseValue(value, apiUrl + fixture)
+    parseValue(value, fixture)
   ));
 };
 
-const fillDatabase = () => fixtures.forEach((fixture) => {
-  iterateValues(fixture);
+const fillDatabase = () => Object.keys(fixtures).forEach(async (fixture) => {
+  await iterateValues(fixture);
 });
 
 export default fillDatabase;
