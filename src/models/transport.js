@@ -40,7 +40,7 @@ const transport = (sequelize, DataTypes) => {
   {
     timestamps: false,
   });
-  Transport.associate = (models) => {
+  Transport.associate = () => {
   };
   return Transport;
 };

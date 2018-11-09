@@ -2,10 +2,8 @@ import 'babel-polyfill';
 import db from './models/index';
 
 const fetch = require('node-fetch');
-const axios = require('axios');
 
 const githubUrl = 'https://raw.githubusercontent.com/phalt/swapi/master/resources/fixtures/';
-const apiUrl = 'http://localhost:8000/api/';
 
 const fixtures = {
   Transport: 'transport.json',
