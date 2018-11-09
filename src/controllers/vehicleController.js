@@ -1,6 +1,8 @@
+import Sequelize from 'sequelize';
 import db from '../models/index';
 
 const { Vehicle } = db;
+const Op = Sequelize.Op;
 
 export default {
   create(req, res) {
@@ -16,6 +18,38 @@ export default {
   list(req, res) {
     return Vehicle.all()
       .then(starship => res.status(200).send(starship))
+      .catch(error => res.status(400).send(error));
+  },
+  search(req, res) {
+    const search = `%${req.body.value0}%`;
+    return Vehicle
+      .findAll({
+        where: {
+          [Op.or]: [
+            {
+              name: {
+                [Op.iLike]: search,
+              },
+            },
+            {
+              model: {
+                [Op.iLike]: search,
+              },
+            },
+            {
+              manufacturer: {
+                [Op.iLike]: search,
+              },
+            },
+            {
+              vehicle_class: {
+                [Op.iLike]: search,
+              },
+            },
+          ],
+        },
+      })
+      .then(vehicle => res.status(201).send(vehicle))
       .catch(error => res.status(400).send(error));
   },
 };

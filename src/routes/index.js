@@ -18,16 +18,21 @@ export default (app) => {
 
   app.post('/api/films', filmController.create);
   app.get('/api/films', filmController.list);
+  app.post('/api/films/get', filmController.search);
 
   app.post('/api/people', personController.create);
   app.get('/api/people', personController.list);
+  app.post('/api/people/get', personController.search);
 
   app.post('/api/species', speciesController.create);
   app.get('/api/species', speciesController.list);
+  app.post('/api/species/get', speciesController.search);
 
   app.post('/api/starships', starshipController.create);
   app.get('/api/starships', starshipController.list);
+  app.post('/api/starships/get', starshipController.search);
 
   app.post('/api/vehicles', vehicleController.create);
   app.get('/api/vehicles', vehicleController.list);
+  app.post('/api/vehicles/get', vehicleController.search);
 };

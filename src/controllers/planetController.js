@@ -31,7 +31,6 @@ export default {
   },
   search(req, res) {
     const search = `%${req.body.value0}%`;
-    console.log(search);
     return Planet
       .findAll({
         where: {

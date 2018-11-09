@@ -1,6 +1,8 @@
+import Sequelize from 'sequelize';
 import db from '../models/index';
 
 const { Film } = db;
+const Op = Sequelize.Op;
 
 export default {
   create(req, res) {
@@ -21,6 +23,38 @@ export default {
     return Film
       .all()
       .then(film => res.status(200).send(film))
+      .catch(error => res.status(400).send(error));
+  },
+  search(req, res) {
+    const search = `%${req.body.value0}%`;
+    return Film
+      .findAll({
+        where: {
+          [Op.or]: [
+            {
+              title: {
+                [Op.iLike]: search,
+              },
+            },
+            {
+              producer: {
+                [Op.iLike]: search,
+              },
+            },
+            {
+              director: {
+                [Op.iLike]: search,
+              },
+            },
+            {
+              opening_crawl: {
+                [Op.iLike]: search,
+              },
+            },
+          ],
+        },
+      })
+      .then(film => res.status(201).send(film))
       .catch(error => res.status(400).send(error));
   },
 };
