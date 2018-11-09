@@ -11,7 +11,7 @@ const fixtures = {
   Character: 'people.json',
   Vehicle: 'vehicles.json',
   Species: 'species.json',
-  Starship: 'starship.json',
+  Starship: 'starships.json',
   Planet: 'planets.json',
 
 };

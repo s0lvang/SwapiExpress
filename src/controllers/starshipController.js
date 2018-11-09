@@ -5,7 +5,7 @@ const { Starship } = db;
 
 export default {
   create(req, res) {
-    Starship.create({
+    return Starship.create({
       ...req.body,
     })
       .then(starship => res.status(201).send(starship))

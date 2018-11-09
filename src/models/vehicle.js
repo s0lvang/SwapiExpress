@@ -11,7 +11,7 @@ const vehicle = (sequelize, DataTypes) => {
     model: {
       type: DataTypes.STRING,
     },
-    starship_class: {
+    vehicle_class: {
       type: DataTypes.STRING,
     },
     manufacturer: {

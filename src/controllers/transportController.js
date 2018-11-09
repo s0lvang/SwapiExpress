@@ -10,13 +10,13 @@ export default {
         ...req.body,
         id: req.body.id,
       })
-      .then(starship => res.status(201).send(starship))
+      .then(transport => res.status(201).send(transport))
       .catch(error => res.status(400).send(error.message));
   },
   list(req, res) {
     return Transport
       .all()
-      .then(starship => res.status(200).send(starship))
+      .then(transport => res.status(200).send(transport))
       .catch(error => res.status(400).send(error));
   },
 };
