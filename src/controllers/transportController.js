@@ -1,18 +1,20 @@
 import db from '../models/index';
 
-const { Starship } = db;
+const { Transport } = db;
 
 
 export default {
   create(req, res) {
-    Starship.create({
-      ...req.body,
-    })
+    return Transport
+      .create({
+        ...req.body,
+        id: req.body.id,
+      })
       .then(starship => res.status(201).send(starship))
-      .catch(error => res.status(400).send(error));
+      .catch(error => res.status(400).send(error.message));
   },
   list(req, res) {
-    return Starship
+    return Transport
       .all()
       .then(starship => res.status(200).send(starship))
       .catch(error => res.status(400).send(error));

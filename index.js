@@ -12,8 +12,8 @@ app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-routes(app); // Set up routes
-fillDatabase();
+routes(app);
+setTimeout(fillDatabase, 1000); // Set up routes
 
 app.get('*', (req, res) => res.status(200).send({
   message: 'Welcome to the beginning of nothingness.',
