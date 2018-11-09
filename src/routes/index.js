@@ -14,6 +14,7 @@ export default (app) => {
 
   app.post('/api/planets', planetController.create);
   app.get('/api/planets', planetController.list);
+  app.post('/api/planets/get', planetController.search);
 
   app.post('/api/films', filmController.create);
   app.get('/api/films', filmController.list);

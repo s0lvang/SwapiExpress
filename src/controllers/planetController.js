@@ -1,6 +1,8 @@
+import Sequelize from 'sequelize';
 import db from '../models/index';
 
 const { Planet } = db;
+const Op = Sequelize.Op;
 
 
 export default {
@@ -25,6 +27,34 @@ export default {
     return Planet
       .all()
       .then(planet => res.status(200).send(planet))
+      .catch(error => res.status(400).send(error));
+  },
+  search(req, res) {
+    const search = `%${req.body.value0}%`;
+    console.log(search);
+    return Planet
+      .findAll({
+        where: {
+          [Op.or]: [
+            {
+              name: {
+                [Op.iLike]: search,
+              },
+            },
+            {
+              climate: {
+                [Op.iLike]: search,
+              },
+            },
+            {
+              terrain: {
+                [Op.iLike]: search,
+              },
+            },
+          ],
+        },
+      })
+      .then(planet => res.status(201).send(planet))
       .catch(error => res.status(400).send(error));
   },
 };
