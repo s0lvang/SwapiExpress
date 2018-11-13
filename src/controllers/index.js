@@ -5,3 +5,4 @@ export { default as speciesController } from './speciesController';
 export { default as starshipController } from './starshipController';
 export { default as vehicleController } from './vehicleController';
 export { default as transportController } from './transportController';
+export { default as massQueryController } from './massQueryController';

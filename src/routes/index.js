@@ -6,6 +6,7 @@ import {
   starshipController,
   vehicleController,
   transportController,
+  massQueryController,
 } from '../controllers/index';
 
 export default (app) => {
@@ -33,4 +34,6 @@ export default (app) => {
 
   app.post('/api/transport', transportController.create);
   app.get('/api/transport', transportController.list);
+
+  app.get('/api/all', massQueryController.list);
 };
