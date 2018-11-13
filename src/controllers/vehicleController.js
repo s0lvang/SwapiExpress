@@ -6,10 +6,9 @@ const { Vehicle } = db;
 export default {
   create(req, res) {
     return Vehicle.create({
-      id: req.body.id,
-      vehicle_class: req.body.vehicle_class,
+      ...req.body,
     })
-      .then(starship => res.status(201).send(starship))
+      .then(vehicle => res.status(201).send(vehicle))
       .catch((error) => {
         res.status(400).send(error);
       });
@@ -17,7 +16,7 @@ export default {
   list(req, res) {
     if (req.query.search) return this.search(req, res);
     return Vehicle.all()
-      .then(starship => res.status(200).send(starship))
+      .then(vehicle => res.status(200).send(vehicle))
       .catch(error => res.status(400).send(error));
   },
   search(req, res) {

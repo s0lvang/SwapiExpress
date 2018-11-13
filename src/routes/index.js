@@ -5,6 +5,7 @@ import {
   speciesController,
   starshipController,
   vehicleController,
+  transportController,
 } from '../controllers/index';
 
 export default (app) => {
@@ -29,4 +30,7 @@ export default (app) => {
 
   app.post('/api/vehicles', vehicleController.create);
   app.get('/api/vehicles', vehicleController.list.bind(vehicleController));
+
+  app.post('/api/transport', transportController.create);
+  app.get('/api/transport', transportController.list);
 };

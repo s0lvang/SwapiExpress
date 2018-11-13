@@ -1,5 +1,5 @@
-const vehicle = (sequelize, DataTypes) => {
-  const Vehicle = sequelize.define('Vehicle', {
+const transport = (sequelize, DataTypes) => {
+  const Transport = sequelize.define('Transport', {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -9,9 +9,6 @@ const vehicle = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
     },
     model: {
-      type: DataTypes.STRING,
-    },
-    vehicle_class: {
       type: DataTypes.STRING,
     },
     manufacturer: {
@@ -38,16 +35,14 @@ const vehicle = (sequelize, DataTypes) => {
     consumables: {
       type: DataTypes.STRING,
     },
+
   },
   {
     timestamps: false,
   });
-  Vehicle.associate = (models) => {
-    const { Character } = models;
-    Vehicle.belongsToMany(Character, { as: 'pilots', through: 'VehicleCharacter' });
-    Character.belongsToMany(Vehicle, { as: 'vehicles', through: 'VehicleCharacter' });
+  Transport.associate = () => {
   };
-  return Vehicle;
+  return Transport;
 };
 
-export default vehicle;
+export default transport;
