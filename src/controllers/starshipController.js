@@ -19,35 +19,31 @@ export default {
       .catch(error => res.status(400).send(error));
   },
   search(req, res) {
-    const { search } = req.query;
-    return Starship
-      .findAll({
+    const searchString = `%${req.query.search}%`;
+    return Starship.findAll({
+      include: {
+        model: Transport,
         where: {
           [Op.or]: [
             {
               name: {
-                [Op.iLike]: search,
+                [Op.iLike]: searchString,
               },
             },
             {
               model: {
-                [Op.iLike]: search,
+                [Op.iLike]: searchString,
               },
             },
             {
               manufacturer: {
-                [Op.iLike]: search,
-              },
-            },
-            {
-              starship_class: {
-                [Op.iLike]: search,
+                [Op.iLike]: searchString,
               },
             },
           ],
         },
-      })
-      .then(starship => res.status(201).send(starship))
+      },
+    }).then(starship => res.status(201).send(starship))
       .catch(error => res.status(400).send(error));
   },
 };

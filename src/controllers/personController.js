@@ -7,15 +7,7 @@ export default {
   create(req, res) {
     return Character.create({
       id: req.body.id,
-      name: req.body.name,
-      gender: req.body.gender,
-      skin_color: req.body.skin_color,
-      hair_color: req.body.hair_color,
-      height: req.body.height,
-      eye_color: req.body.eye_color,
-      mass: req.body.mass,
-      homeworld: req.body.homeworld,
-      birth_year: req.body.birth_year,
+      ...req.body,
     })
       .then(person => res.status(201).send(person))
       .catch((error) => {

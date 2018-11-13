@@ -15,39 +15,37 @@ export default {
   },
   list(req, res) {
     if (req.query.search) return this.search(req, res);
-    return Vehicle.all({include: Transport})
+    return Vehicle.all({ include: Transport })
       .then(vehicle => res.status(200).send(vehicle))
       .catch(error => res.status(400).send(error));
   },
   search(req, res) {
-    const { search } = req.query;
-    return Vehicle
-      .findAll({
+    const searchString = `%${req.query.search}%`;
+    console.log(searchString);
+    return Vehicle.findAll({
+      include: {
+        model: Transport,
         where: {
           [Op.or]: [
             {
               name: {
-                [Op.iLike]: search,
+                [Op.iLike]: searchString,
               },
             },
             {
               model: {
-                [Op.iLike]: search,
+                [Op.iLike]: searchString,
               },
             },
             {
               manufacturer: {
-                [Op.iLike]: search,
-              },
-            },
-            {
-              vehicle_class: {
-                [Op.iLike]: search,
+                [Op.iLike]: searchString,
               },
             },
           ],
         },
-      })
+      },
+    })
       .then(vehicle => res.status(201).send(vehicle))
       .catch(error => res.status(400).send(error));
   },
