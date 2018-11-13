@@ -19,7 +19,7 @@ export default {
       .catch(error => res.status(400).send(error));
   },
   search(req, res) {
-    const { search } = req.query;
+    const search = `%${req.query.search}%`;
     return Starship
       .findAll({
         where: {
