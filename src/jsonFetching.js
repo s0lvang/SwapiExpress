@@ -14,9 +14,9 @@ const fixtures = [
   ['Vehicle', 'vehicles.json'],
 ];
 
+
 const post = async (value, url) => {
   const model = db[url];
-  console.log(Object.keys(db));
   model.create(value);
 };
 
