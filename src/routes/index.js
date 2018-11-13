@@ -6,11 +6,12 @@ import {
   starshipController,
   vehicleController,
   transportController,
+  searchController,
 } from '../controllers/index';
 
 export default (app) => {
   app.get('/api', (req, res) => res.status(200).send({
-    message: 'Welcome to my dick!',
+    message: 'Welcome to our Star Wars API!',
   }));
 
   app.post('/api/planets', planetController.create);
@@ -33,4 +34,6 @@ export default (app) => {
 
   app.post('/api/transport', transportController.create);
   app.get('/api/transport', transportController.list);
+
+  app.get('/api/search', searchController.list);
 };
