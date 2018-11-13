@@ -1,5 +1,6 @@
 import { Op } from 'sequelize';
 import db from '../models/index';
+import searchController from './searchController';
 
 const { Film } = db;
 
@@ -22,6 +23,8 @@ export default {
   },
   search(req, res) {
     const { search } = req.query;
+    // If a user searches, it will be saved in the database with query and model.
+    searchController.saveSearch(search, 'films');
     return Film
       .findAll({
         where: {

@@ -11,9 +11,6 @@ const starship = (sequelize, DataTypes) => {
     starship_class: {
       type: DataTypes.STRING,
     },
-    max_atmosphering_speed: {
-      type: DataTypes.STRING,
-    },
   },
   {
     timestamps: false,

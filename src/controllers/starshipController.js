@@ -1,5 +1,6 @@
 import { Op } from 'sequelize';
 import db from '../models/index';
+import searchController from './searchController';
 
 const { Starship, Transport } = db;
 
@@ -19,7 +20,10 @@ export default {
       .catch(error => res.status(400).send(error));
   },
   search(req, res) {
-    const searchString = `%${req.query.search}%`;
+    const { search } = req.query;
+    const searchString = `%${search}%`;
+    searchController.saveSearch(search, 'vehicles');
+    // If a user searches, it will be saved in the database with query and model.
     return Starship.findAll({
       include: {
         model: Transport,
