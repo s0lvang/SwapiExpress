@@ -1,6 +1,6 @@
 import db from '../models/index';
 
-const { Starship } = db;
+const { Starship, Transport } = db;
 
 
 export default {
@@ -13,7 +13,7 @@ export default {
   },
   list(req, res) {
     return Starship
-      .all()
+      .findAll({ include: Transport })
       .then(starship => res.status(200).send(starship))
       .catch(error => res.status(400).send(error));
   },
