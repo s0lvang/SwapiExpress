@@ -2,7 +2,7 @@ import { Op } from 'sequelize';
 import db from '../models/index';
 import searchController from './searchController';
 
-const { Starship } = db;
+const { Starship, Transport } = db;
 
 export default {
   create(req, res) {
@@ -15,16 +15,17 @@ export default {
   list(req, res) {
     if (req.query.search || req.body.search) return this.search(req, res);
     return Starship
-      .all()
+      .findAll({ include: Transport })
       .then(starship => res.status(200).send(starship))
       .catch(error => res.status(400).send(error));
   },
   search(req, res) {
     const search = req.body.search != null ? `%${req.body.search}%` : `%${req.query.search}%`;
+    searchController.saveSearch(search, 'vehicles');
     // If a user searches, it will be saved in the database with query and model.
-    searchController.saveSearch(search, 'starships');
-    return Starship
-      .findAll({
+    return Starship.findAll({
+      include: {
+        model: Transport,
         where: {
           [Op.or]: [
             {
@@ -42,15 +43,10 @@ export default {
                 [Op.iLike]: search,
               },
             },
-            {
-              starship_class: {
-                [Op.iLike]: search,
-              },
-            },
           ],
         },
-      })
-      .then(starship => res.status(201).send(starship))
+      },
+    }).then(starship => res.status(201).send(starship))
       .catch(error => res.status(400).send(error));
   },
 };

@@ -9,12 +9,7 @@ export default {
     return Film
       .create({
         id: req.body.id,
-        title: req.body.title,
-        producer: req.body.producer,
-        episode_id: req.body.episode_id,
-        director: req.body.director,
-        release_date: req.body.release_date,
-        opening_crawl: req.body.opening_crawl,
+        ...req.body,
       })
       .then(film => res.status(201).send(film))
       .catch(error => res.status(400).send(error));
