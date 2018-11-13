@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop, no-return-await, guard-for-in, no-restricted-syntax */
 import { cloneDeep } from 'lodash';
 import filmController from './filmController';
 import personController from './personController';
@@ -34,47 +35,48 @@ const allControllers = {
   },
 };
 
+const newResponse = (res) => {
+  const newRes = cloneDeep(res);
+  newRes.send = responseArray => responseArray.map(value => value.dataValues);
+  return newRes;
+};
+
 // Queries all the controllers and sends one result
 export default {
   async list(req, res) {
-    const models = [];
-    const newRes = cloneDeep(res);
+    const newRes = newResponse(res);
     const controllerModels = Object.values(allControllers);
-    newRes.send = (responseArray) => {
-      responseArray.forEach((element) => {
-        const result = element.dataValues;
-        models.push(result);
-      });
-    };
-    for (const modelNum in controllerModels) { // eslint-disable-line
-      const { model } = controllerModels[modelNum];
-      // Edits the send request to be a new function instead
-      await model.list(req, newRes); // eslint-disable-line
-    }
+    const promises = controllerModels.map(async (controller) => {
+      const { model } = controller;
+      return await model.list(req, newRes);
+    });
+    const models = [];
+    await Promise.all(promises)
+      .then(promiseArray => promiseArray.map(nested => nested.map(value => models.push(value))));
     res.status(200).send(models);
   },
   // Queries based on the types wanted, e.g. 'Species, Characters'.
   async search(req, res) {
     const { checkedBoxes } = req.body;
+    const controllerModels = Object.values(allControllers);
     const checkedModels = [];
     const newRes = cloneDeep(res);
-    const controllerModels = Object.values(allControllers);
-    for (const boxNum in checkedBoxes) { //eslint-disable-line
+    for (const boxNum in checkedBoxes) {
       const boxName = checkedBoxes[boxNum];
-      const models = { type: boxName, result: [] };
+      const currentModel = { type: boxName, result: [] };
       newRes.send = (responseArray) => {
-        responseArray.forEach((element) => {
-          const result = element.dataValues;
-          models.result.push(result);
+        responseArray.forEach((response) => {
+          const result = response.dataValues;
+          currentModel.result.push(result);
         });
       };
-      for (const modelNum in controllerModels) { // eslint-disable-line
+      for (const modelNum in controllerModels) {
         const { model, name } = controllerModels[modelNum];
         if (name === boxName) {
-          await model.list(req, newRes); // eslint-disable-line
+          await model.list(req, newRes);
         }
       }
-      checkedModels.push(models);
+      checkedModels.push(currentModel);
     }
     res.status(200).send(checkedModels);
   },
