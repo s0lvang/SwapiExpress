@@ -36,4 +36,5 @@ export default (app) => {
   app.get('/api/transport', transportController.list);
 
   app.get('/api/all', massQueryController.list);
+  app.post('/api/all', massQueryController.search);
 };
