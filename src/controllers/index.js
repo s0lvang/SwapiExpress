@@ -6,3 +6,4 @@ export { default as starshipController } from './starshipController';
 export { default as vehicleController } from './vehicleController';
 export { default as transportController } from './transportController';
 export { default as massQueryController } from './massQueryController';
+export { default as searchController } from './searchController';
