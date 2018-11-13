@@ -13,26 +13,20 @@ export default (app) => {
   }));
 
   app.post('/api/planets', planetController.create);
-  app.get('/api/planets', planetController.list);
-  app.post('/api/planets/get', planetController.search);
+  app.get('/api/planets', planetController.list.bind(planetController));
 
   app.post('/api/films', filmController.create);
-  app.get('/api/films', filmController.list);
-  app.post('/api/films/get', filmController.search);
+  app.get('/api/films', filmController.list.bind(filmController));
 
   app.post('/api/people', personController.create);
-  app.get('/api/people', personController.list);
-  app.post('/api/people/get', personController.search);
+  app.get('/api/people', personController.list.bind(personController));
 
   app.post('/api/species', speciesController.create);
-  app.get('/api/species', speciesController.list);
-  app.post('/api/species/get', speciesController.search);
+  app.get('/api/species', speciesController.list.bind(speciesController));
 
   app.post('/api/starships', starshipController.create);
-  app.get('/api/starships', starshipController.list);
-  app.post('/api/starships/get', starshipController.search);
+  app.get('/api/starships', starshipController.list.bind(starshipController));
 
   app.post('/api/vehicles', vehicleController.create);
-  app.get('/api/vehicles', vehicleController.list);
-  app.post('/api/vehicles/get', vehicleController.search);
+  app.get('/api/vehicles', vehicleController.list.bind(vehicleController));
 };

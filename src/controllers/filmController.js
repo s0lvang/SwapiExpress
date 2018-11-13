@@ -19,13 +19,14 @@ export default {
       .catch(error => res.status(400).send(error));
   },
   list(req, res) {
+    if (req.query.search) return this.search(req, res);
     return Film
       .all()
       .then(film => res.status(200).send(film))
       .catch(error => res.status(400).send(error));
   },
   search(req, res) {
-    const search = `%${req.body.value0}%`;
+    const { search } = req.query;
     return Film
       .findAll({
         where: {

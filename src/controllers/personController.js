@@ -23,12 +23,13 @@ export default {
       });
   },
   list(req, res) {
+    if (req.query.search) return this.search(req, res);
     return Character.all()
       .then(person => res.status(200).send(person))
       .catch(error => res.status(400).send(error));
   },
   search(req, res) {
-    const search = `%${req.body.value0}%`;
+    const { search } = req.query;
     return Character
       .findAll({
         where: {

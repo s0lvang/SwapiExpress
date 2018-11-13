@@ -15,12 +15,13 @@ export default {
       });
   },
   list(req, res) {
+    if (req.query.search) return this.search(req, res);
     return Vehicle.all()
       .then(starship => res.status(200).send(starship))
       .catch(error => res.status(400).send(error));
   },
   search(req, res) {
-    const search = `%${req.body.value0}%`;
+    const { search } = req.query;
     return Vehicle
       .findAll({
         where: {
