@@ -21,8 +21,6 @@ export default {
   },
   search(req, res) {
     const search = req.body.search != null ? `%${req.body.search}%` : `%${req.query.search}%`;
-    searchController.saveSearch(search, 'vehicles');
-    // If a user searches, it will be saved in the database with query and model.
     return Starship.findAll({
       include: {
         model: Transport,
@@ -46,7 +44,16 @@ export default {
           ],
         },
       },
-    }).then(starship => res.status(201).send(starship))
+    })
+      .then((starship) => {
+        if (starship === undefined || starship.length > 1) {
+          // If a user searches successfully, it will be saved in the database with query and model.
+          if (req.query.search != null) {
+            searchController.saveSearch(req.query.search, 'starships');
+          }
+        }
+        return res.status(200).send(starship);
+      })
       .catch(error => res.status(400).send(error));
   },
 };

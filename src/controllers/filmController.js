@@ -23,8 +23,6 @@ export default {
   },
   search(req, res) {
     const search = req.body.search != null ? `%${req.body.search}%` : `%${req.query.search}%`;
-    // If a user searches, it will be saved in the database with query and model.
-    searchController.saveSearch(search, 'films');
     return Film
       .findAll({
         where: {
@@ -52,7 +50,15 @@ export default {
           ],
         },
       })
-      .then(film => res.status(201).send(film))
+      .then((film) => {
+        if (film === undefined || film.length > 1) {
+          // If a user searches successfully, it will be saved in the database with query and model.
+          if (req.query.search != null) {
+            searchController.saveSearch(req.query.search, 'films');
+          }
+        }
+        return res.status(200).send(film);
+      })
       .catch(error => res.status(400).send(error));
   },
 };
