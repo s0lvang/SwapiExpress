@@ -51,7 +51,7 @@ export default {
         },
       })
       .then((film) => {
-        if (film === undefined || film.length > 1) {
+        if (film === undefined || film.length > 0) {
           // If a user searches successfully, it will be saved in the database with query and model.
           if (req.query.search != null) {
             searchController.saveSearch(req.query.search, 'films');

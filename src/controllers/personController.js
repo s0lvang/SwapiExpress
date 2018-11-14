@@ -41,7 +41,7 @@ export default {
         },
       })
       .then((person) => {
-        if (person === undefined || person.length > 1) {
+        if (person === undefined || person.length > 0) {
           // If a user searches successfully, it will be saved in the database with query and model.
           if (req.query.search != null) {
             searchController.saveSearch(req.query.search, 'people');

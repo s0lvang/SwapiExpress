@@ -47,7 +47,7 @@ export default {
       },
     })
       .then((vehicle) => {
-        if (vehicle === undefined || vehicle.length > 1) {
+        if (vehicle === undefined || vehicle.length > 0) {
           // If a user searches successfully, it will be saved in the database with query and model.
           if (req.query.search != null) {
             searchController.saveSearch(req.query.search, 'vehicles');

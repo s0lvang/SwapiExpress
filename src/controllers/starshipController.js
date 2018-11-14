@@ -46,7 +46,7 @@ export default {
       },
     })
       .then((starship) => {
-        if (starship === undefined || starship.length > 1) {
+        if (starship === undefined || starship.length > 0) {
           // If a user searches successfully, it will be saved in the database with query and model.
           if (req.query.search != null) {
             searchController.saveSearch(req.query.search, 'starships');
