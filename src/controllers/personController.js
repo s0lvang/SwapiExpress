@@ -1,7 +1,6 @@
 import { Op } from 'sequelize';
 import db from '../models/index';
 import searchController from './searchController';
-import planetController from './planetController';
 
 const { Character, Planet } = db;
 
