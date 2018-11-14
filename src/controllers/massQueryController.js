@@ -6,7 +6,6 @@ import speciesController from './speciesController';
 import planetController from './planetController';
 import vehicleController from './vehicleController';
 import starshipController from './starshipController';
-import 'babel-polyfill';
 
 const allControllers = {
   Films: {
@@ -35,30 +34,33 @@ const allControllers = {
   },
 };
 
-const paginatedModel = (body, models, size) => {
-  const { page, limit, offset } = body;
+const controllerModels = Object.values(allControllers);
+
+const paginatedModel = (body, models) => {
+  const { page, limit } = body;
   const end = page * limit;
   const start = page * limit - limit;
-  const pages = Math.round(size / limit);
+  const pages = Math.round(models.length / limit);
   const newResult = models.slice(start, end);
-  console.log(start, end, pages);
   return {
     pages,
     result: newResult,
   };
 };
 
-const newResponse = (res) => {
+const getResponse = (res) => {
   const newRes = cloneDeep(res);
-  newRes.send = responseArray => responseArray.map(value => value.dataValues);
+  newRes.send = (responseArray) => {
+    const { rows } = responseArray;
+    rows.map(value => value.dataValues);
+  };
   return newRes;
 };
 
 // Queries all the controllers and sends one result
 export default {
   async list(req, res) {
-    const newRes = newResponse(res);
-    const controllerModels = Object.values(allControllers);
+    const newRes = getResponse(res);
     const promises = controllerModels.map(async (controller) => {
       const { model } = controller;
       return await model.list(req, newRes);
@@ -71,9 +73,7 @@ export default {
   // Queries based on the types wanted, e.g. 'Species, Characters'.
   async search(req, res) {
     const { checkedBoxes } = req.body;
-    const controllerModels = Object.values(allControllers);
     let checkedModels = [];
-    let size = 0;
     const newRes = cloneDeep(res);
     for (const boxNum in checkedBoxes) {
       const boxName = checkedBoxes[boxNum];
@@ -81,6 +81,7 @@ export default {
       newRes.send = (responseArray) => {
         responseArray.rows.forEach((response) => {
           const result = response.dataValues;
+          result.fixture = boxName;
           currentModel.push(result);
         });
       };
@@ -90,9 +91,8 @@ export default {
           await model.list(req, newRes);
         }
       }
-      size += currentModel.length;
       checkedModels = checkedModels.concat(currentModel);
     }
-    res.status(200).send(paginatedModel(req.body, checkedModels, size));
+    res.status(200).send(paginatedModel(req.body, checkedModels));
   },
 };

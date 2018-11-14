@@ -23,10 +23,13 @@ export default {
   },
   search(req, res) {
     const search = req.body.search != null ? `%${req.body.search}%` : `%${req.query.search}%`;
+    const { limit, offset } = req.query;
     // If a user searches, it will be saved in the database with query and model.
     searchController.saveSearch(search, 'films');
     return Film
       .findAndCountAll({
+        limit,
+        offset,
         where: {
           [Op.or]: [
             {
