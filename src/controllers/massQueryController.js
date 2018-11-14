@@ -57,8 +57,8 @@ const getResponse = (res) => {
 };
 
 const getIdentifier = (value) => {
-  let identifier = value.name != null ? value.name : value.title;
-  identifier = identifier != null ? identifier : value.Transport.name;
+  let identifier = value.name || value.title;
+  identifier = identifier || value.Transport.name;
   return identifier;
 };
 
