@@ -62,12 +62,13 @@ export default {
                 [Op.or]: exclude.split(','),
               },
             },
-          ],
-        },
+          },
+        ],
+      },
       include: Planet,
-      })
+    })
       .then((person) => {
-        if (person || person.length > 0) {
+        if (person && person.count > 0) {
           // If a user searches successfully, it will be saved in the database with query and model.
           const saveUrl = `${req.originalUrl}`;
           searchController.saveSearch(saveUrl, req.query.search, 'people');

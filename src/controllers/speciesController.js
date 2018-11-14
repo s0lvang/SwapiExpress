@@ -23,6 +23,7 @@ export default {
   },
   search(req, res) {
     const search = req.body.search != null ? `%${req.body.search}%` : `%${req.query.search}%`;
+    const { limit, offset } = req.query;
     return Species
       .findAndCountAll({
         limit,
@@ -53,7 +54,7 @@ export default {
         },
       })
       .then((species) => {
-        if (species || species.length > 0) {
+        if (species && species.count > 0) {
           // If a user searches successfully, it will be saved in the database with query and model.
           const saveUrl = `${req.originalUrl}`;
           searchController.saveSearch(saveUrl, req.query.search, 'species');

@@ -50,7 +50,7 @@ export default {
       },
     })
       .then((vehicle) => {
-        if (vehicle || vehicle.length > 0) {
+        if (vehicle && vehicle.count > 0) {
           // If a user searches successfully, it will be saved in the database with query and model.
           const saveUrl = `${req.originalUrl}`;
           searchController.saveSearch(saveUrl, req.query.search, 'vehicles');
