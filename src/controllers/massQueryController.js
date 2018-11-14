@@ -94,7 +94,7 @@ export default {
       }
       checkedModels = checkedModels.concat(currentModel);
     }
-    searchController.saveSearch(req.search, checkedBoxes.join(', '));
+    searchController.saveSearch(req.body.search, checkedBoxes.join(', '));
     res.status(200).send(paginatedModel(req.body, checkedModels));
   },
 };
