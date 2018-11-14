@@ -6,6 +6,7 @@ import speciesController from './speciesController';
 import planetController from './planetController';
 import vehicleController from './vehicleController';
 import starshipController from './starshipController';
+import searchController from './searchController';
 
 const allControllers = {
   Films: {
@@ -93,6 +94,7 @@ export default {
       }
       checkedModels = checkedModels.concat(currentModel);
     }
+    searchController.saveSearch(req.search, checkedBoxes.join(', '));
     res.status(200).send(paginatedModel(req.body, checkedModels));
   },
 };
