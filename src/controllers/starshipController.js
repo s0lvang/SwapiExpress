@@ -21,7 +21,10 @@ export default {
   },
   search(req, res) {
     const search = req.body.search != null ? `%${req.body.search}%` : `%${req.query.search}%`;
-    return Starship.findAll({
+    const { limit, offset } = req.query;
+    return Starship.findAndCountAll({
+      limit,
+      offset,
       include: {
         model: Transport,
         where: {

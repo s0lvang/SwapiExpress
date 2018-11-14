@@ -22,7 +22,10 @@ export default {
   },
   search(req, res) {
     const search = req.body.search != null ? `%${req.body.search}%` : `%${req.query.search}%`;
-    return Vehicle.findAll({
+    const { limit, offset } = req.query;
+    return Vehicle.findAndCountAll({
+      limit,
+      offset,
       include: {
         model: Transport,
         where: {

@@ -24,7 +24,9 @@ export default {
   search(req, res) {
     const search = req.body.search != null ? `%${req.body.search}%` : `%${req.query.search}%`;
     return Film
-      .findAll({
+      .findAndCountAll({
+        limit,
+        offset,
         where: {
           [Op.or]: [
             {
