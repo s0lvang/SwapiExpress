@@ -34,12 +34,21 @@ export default {
   },
   search(req, res, exclude) {
     const search = `%${req.query.search || req.body.search}%`;
-    const { limit, offset } = req.query;
+    const {
+      limit,
+      offset,
+      column,
+      value,
+    } = req.query;
+    const orderColumn = column != null ? column : 'id';
+    const orderValue = value != null ? value : 'ASC';
+    console.log(req.query);
     // If a user searches, it will be saved in the database with query and model.
     searchController.saveSearch(search, 'people');
     return Character.findAndCountAll({
       limit,
       offset,
+      order: [[orderColumn, orderValue]],
       where: {
         [Op.and]: [
           {
