@@ -44,7 +44,8 @@ export default {
         if (person === undefined || person.length > 0) {
           // If a user searches successfully, it will be saved in the database with query and model.
           if (req.query.search != null) {
-            searchController.saveSearch(req.query.search, 'people');
+            const saveUrl = `http://it2810-06.idi.ntnu.no/api${req.url}`;
+            searchController.saveSearch(saveUrl, req.query.search, 'people');
           }
         }
         return res.status(200).send(person);
