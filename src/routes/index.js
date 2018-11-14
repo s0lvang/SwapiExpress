@@ -40,4 +40,5 @@ export default (app) => {
   app.post('/api/all', massQueryController.search);
 
   app.get('/api/search', searchController.list);
+  app.get('/api/search/count', searchController.countAll);
 };

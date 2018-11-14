@@ -6,6 +6,7 @@ import speciesController from './speciesController';
 import planetController from './planetController';
 import vehicleController from './vehicleController';
 import starshipController from './starshipController';
+import searchController from './searchController';
 
 const allControllers = {
   Films: {
@@ -84,6 +85,12 @@ const sortModel = (body, models) => {
   return sortedModel;
 };
 
+const processModel = (body, pureModel) => {
+  const sortedModel = sortModel(body, pureModel);
+  const paginatedModel = paginateModel(body, sortedModel);
+  return paginatedModel;
+};
+
 // Queries all the controllers and sends one result
 export default {
   async list(req, res) {
@@ -120,13 +127,13 @@ export default {
       }
       models = models.concat(currentModel);
     }
+    searchController.saveSearch(req.body.search, checkedBoxes.join(', '));
     const pages = Math.round(models.length / limit);
     const pureModel = {
       pages,
       rows: models,
     };
-    const sortedModel = sortModel(req.body, pureModel);
-    const paginatedModel = paginateModel(req.body, sortedModel);
-    res.status(200).send(paginatedModel);
+    const processedModel = processModel(req.body, pureModel);
+    res.status(200).send(processedModel);
   },
 };
