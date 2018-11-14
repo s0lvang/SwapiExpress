@@ -4,8 +4,15 @@ const { Search } = db;
 
 export default {
   list(req, res) {
-    return Search.findAll()
-      .then(search => res.status(200).send(search))
+    return Search.findAll({
+      order: [
+        ['id', 'DESC'],
+      ],
+      limit: 10,
+    })
+      .then((search) => {
+        res.status(200).send(search);
+      })
       .catch(error => res.status(400).send(error));
   },
   saveSearch(searchUrl, searchString, model) {
