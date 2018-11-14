@@ -35,6 +35,19 @@ const allControllers = {
   },
 };
 
+const paginatedModel = (body, models, size) => {
+  const { page, limit, offset } = body;
+  const end = page * limit;
+  const start = page * limit - limit;
+  const pages = Math.round(size / limit);
+  const newResult = models.slice(start, end);
+  console.log(start, end, pages);
+  return {
+    pages,
+    result: newResult,
+  };
+};
+
 const newResponse = (res) => {
   const newRes = cloneDeep(res);
   newRes.send = responseArray => responseArray.map(value => value.dataValues);
@@ -59,15 +72,16 @@ export default {
   async search(req, res) {
     const { checkedBoxes } = req.body;
     const controllerModels = Object.values(allControllers);
-    const checkedModels = [];
+    let checkedModels = [];
+    let size = 0;
     const newRes = cloneDeep(res);
     for (const boxNum in checkedBoxes) {
       const boxName = checkedBoxes[boxNum];
-      const currentModel = { type: boxName, result: [] };
+      const currentModel = [];
       newRes.send = (responseArray) => {
         responseArray.forEach((response) => {
           const result = response.dataValues;
-          currentModel.result.push(result);
+          currentModel.push(result);
         });
       };
       for (const modelNum in controllerModels) {
@@ -76,8 +90,9 @@ export default {
           await model.list(req, newRes);
         }
       }
-      checkedModels.push(currentModel);
+      size += currentModel.length;
+      checkedModels = checkedModels.concat(currentModel);
     }
-    res.status(200).send(checkedModels);
+    res.status(200).send(paginatedModel(req.body, checkedModels, size));
   },
 };
