@@ -40,8 +40,8 @@ export default {
       column,
       value,
     } = req.query;
-    const orderColumn = column != null ? column : 'id';
-    const orderValue = value != null ? value : 'ASC';
+    const orderColumn = column || 'id';
+    const orderValue = value || 'ASC';
     console.log(req.query);
     // If a user searches, it will be saved in the database with query and model.
     searchController.saveSearch(search, 'people');
