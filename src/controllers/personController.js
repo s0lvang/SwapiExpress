@@ -1,8 +1,9 @@
 import { Op } from 'sequelize';
 import db from '../models/index';
 import searchController from './searchController';
+import planetController from './planetController';
 
-const { Character } = db;
+const { Character, Planet } = db;
 
 export default {
   create(req, res) {
@@ -27,6 +28,9 @@ export default {
             [Op.or]: exclude.split(','),
           },
         },
+      },
+      include: {
+        model: Planet,
       },
     })
       .then(person => res.status(200).send(person))
@@ -53,6 +57,7 @@ export default {
           },
         ],
       },
+      include: Planet,
     })
       .then(person => res.status(201).send(person))
       .catch(error => res.status(400).send(error));
