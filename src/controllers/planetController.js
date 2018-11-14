@@ -46,7 +46,7 @@ export default {
         },
       })
       .then((planet) => {
-        if (planet === undefined || planet.length > 0) {
+        if (planet || planet.length > 0) {
           // If a user searches successfully, it will be saved in the database with query and model.
           const saveUrl = `http://it2810-06.idi.ntnu.no/api${req.url}`;
           searchController.saveSearch(saveUrl, req.query.search, 'planets');
