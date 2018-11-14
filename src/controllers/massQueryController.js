@@ -34,17 +34,33 @@ const allControllers = {
   },
 };
 
-const newResponse = (res) => {
+const controllerModels = Object.values(allControllers);
+
+const paginatedModel = (body, models) => {
+  const { page, limit } = body;
+  const end = page * limit;
+  const start = page * limit - limit;
+  const pages = Math.round(models.length / limit);
+  const newResult = models.slice(start, end);
+  return {
+    pages,
+    result: newResult,
+  };
+};
+
+const getResponse = (res) => {
   const newRes = cloneDeep(res);
-  newRes.send = responseArray => responseArray.map(value => value.dataValues);
+  newRes.send = (responseArray) => {
+    const { rows } = responseArray;
+    rows.map(value => value.dataValues);
+  };
   return newRes;
 };
 
 // Queries all the controllers and sends one result
 export default {
   async list(req, res) {
-    const newRes = newResponse(res);
-    const controllerModels = Object.values(allControllers);
+    const newRes = getResponse(res);
     const promises = controllerModels.map(async (controller) => {
       const { model } = controller;
       return await model.list(req, newRes);
@@ -57,16 +73,16 @@ export default {
   // Queries based on the types wanted, e.g. 'Species, Characters'.
   async search(req, res) {
     const { checkedBoxes } = req.body;
-    const controllerModels = Object.values(allControllers);
-    const checkedModels = [];
+    let checkedModels = [];
     const newRes = cloneDeep(res);
     for (const boxNum in checkedBoxes) {
       const boxName = checkedBoxes[boxNum];
-      const currentModel = { type: boxName, result: [] };
+      const currentModel = [];
       newRes.send = (responseArray) => {
-        responseArray.forEach((response) => {
+        responseArray.rows.forEach((response) => {
           const result = response.dataValues;
-          currentModel.result.push(result);
+          result.fixture = boxName;
+          currentModel.push(result);
         });
       };
       for (const modelNum in controllerModels) {
@@ -75,8 +91,8 @@ export default {
           await model.list(req, newRes);
         }
       }
-      checkedModels.push(currentModel);
+      checkedModels = checkedModels.concat(currentModel);
     }
-    res.status(200).send(checkedModels);
+    res.status(200).send(paginatedModel(req.body, checkedModels));
   },
 };

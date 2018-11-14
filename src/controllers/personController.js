@@ -38,9 +38,12 @@ export default {
   },
   search(req, res, exclude) {
     const search = `%${req.query.search || req.body.search}%`;
+    const { limit, offset } = req.query;
     // If a user searches, it will be saved in the database with query and model.
     searchController.saveSearch(search, 'people');
-    return Character.findAll({
+    return Character.findAndCountAll({
+      limit,
+      offset,
       where: {
         [Op.and]: [
           {

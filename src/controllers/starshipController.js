@@ -21,9 +21,12 @@ export default {
   },
   search(req, res) {
     const search = req.body.search != null ? `%${req.body.search}%` : `%${req.query.search}%`;
+    const { limit, offset } = req.query;
     searchController.saveSearch(search, 'vehicles');
     // If a user searches, it will be saved in the database with query and model.
-    return Starship.findAll({
+    return Starship.findAndCountAll({
+      limit,
+      offset,
       include: {
         model: Transport,
         where: {
