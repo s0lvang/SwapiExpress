@@ -5,24 +5,15 @@ import searchController from './searchController';
 const { Species } = db;
 
 export default {
-  create(req, res) {
-    return Species
-      .create({
-        id: req.body.id,
-        ...req.body,
-      })
-      .then(species => res.status(201).send(species))
-      .catch(error => res.status(400).send(error));
-  },
+
   list(req, res) {
-    if (req.query.search || req.body.search) return this.search(req, res);
-    return Species
-      .all()
+    return this.search(res)
       .then(species => res.status(200).send(species))
       .catch(error => res.status(400).send(error));
   },
-  search(req, res) {
-    const search = req.body.search != null ? `%${req.body.search}%` : `%${req.query.search}%`;
+  search(req) {
+    const search = req.body.search || req.query.search;
+    const searchString = `%${search}%`;
     const { limit, offset } = req.query;
     // If a user searches, it will be saved in the database with query and model.
     const { saveSearch } = req.body;
@@ -35,28 +26,26 @@ export default {
           [Op.or]: [
             {
               name: {
-                [Op.iLike]: search,
+                [Op.iLike]: searchString,
               },
             },
             {
               classification: {
-                [Op.iLike]: search,
+                [Op.iLike]: searchString,
               },
             },
             {
               designation: {
-                [Op.iLike]: search,
+                [Op.iLike]: searchString,
               },
             },
             {
               language: {
-                [Op.iLike]: search,
+                [Op.iLike]: searchString,
               },
             },
           ],
         },
-      })
-      .then(species => res.status(201).send(species))
-      .catch(error => res.status(400).send(error));
+      });
   },
 };

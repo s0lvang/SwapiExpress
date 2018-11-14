@@ -5,23 +5,14 @@ import searchController from './searchController';
 const { Vehicle, Transport } = db;
 
 export default {
-  create(req, res) {
-    return Vehicle.create({
-      ...req.body,
-    })
-      .then(vehicle => res.status(201).send(vehicle))
-      .catch((error) => {
-        res.status(400).send(error);
-      });
-  },
   list(req, res) {
-    if (req.query.search || req.body.search) return this.search(req, res);
-    return Vehicle.all({ include: Transport })
+    return this.search(req)
       .then(vehicle => res.status(200).send(vehicle))
       .catch(error => res.status(400).send(error));
   },
-  search(req, res) {
-    const search = req.body.search != null ? `%${req.body.search}%` : `%${req.query.search}%`;
+  search(req) {
+    const search = req.body.search || req.query.search;
+    const searchString = `%${search}%`;
     const { limit, offset } = req.query;
     const { saveSearch } = req.body;
     if (saveSearch == null) searchController.saveSearch(search, 'people');
@@ -35,24 +26,22 @@ export default {
           [Op.or]: [
             {
               name: {
-                [Op.iLike]: search,
+                [Op.iLike]: searchString,
               },
             },
             {
               model: {
-                [Op.iLike]: search,
+                [Op.iLike]: searchString,
               },
             },
             {
               manufacturer: {
-                [Op.iLike]: search,
+                [Op.iLike]: searchString,
               },
             },
           ],
         },
       },
-    })
-      .then(vehicle => res.status(201).send(vehicle))
-      .catch(error => res.status(400).send(error));
+    });
   },
 };
