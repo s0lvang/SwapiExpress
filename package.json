@@ -6,16 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel index.js -d dist && babel src -d dist/src && cp -r src/config dist/src",
-    "start": "npm run build && nodemon dist/index.js",
-    "lint": "node_modules/.bin/eslint index.js src/ --fix",
-    "migrate": "node_modules/.bin/sequelize db:migrate",
-    "loaddb": "node src/jsonFetching.js"
+    "start": "nodemon --exec babel-node index.js",
+    "serve": "node dist/index.js",
+    "lint": "node_modules/.bin/eslint index.js src/",
+    "lint:fix": "node_modules/.bin/eslint index.js src/ --fix"
   },
   "author": "",
   "license": "",
   "dependencies": {
-    "axios": "^0.18.0",
-    "babel-polyfill": "^6.26.0",
+    "@babel/polyfill": "^7.0.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "express": "^4.16.4",
@@ -28,10 +27,12 @@
     "sequelize-cli": "^5.3.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.6",
+    "@babel/node": "^7.0.0",
+    "@babel/preset-env": "^7.1.6",
     "@types/node-fetch": "^2.1.2",
-    "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
     "eslint": "^5.8.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
