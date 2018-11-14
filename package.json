@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel index.js -d dist && babel src -d dist/src && cp -r src/config dist/src",
-    "start": "npm run build && nodemon dist/index.js",
+    "start": "nodemon --exec babel-node index.js",
+    "serve": "node dist/index.js",
     "lint": "node_modules/.bin/eslint index.js src/ --fix",
     "migrate": "node_modules/.bin/sequelize db:migrate",
     "loaddb": "node src/jsonFetching.js"
@@ -14,6 +15,9 @@
   "author": "",
   "license": "",
   "dependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/node": "^7.0.0",
+    "@babel/preset-env": "^7.1.6",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "body-parser": "^1.18.3",

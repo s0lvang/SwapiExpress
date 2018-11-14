@@ -3,7 +3,6 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import routes from './src/routes';
-import 'babel-polyfill';
 import fillDatabase from './src/jsonFetching';
 
 // Set up the express app

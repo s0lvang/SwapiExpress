@@ -6,7 +6,6 @@ import speciesController from './speciesController';
 import planetController from './planetController';
 import vehicleController from './vehicleController';
 import starshipController from './starshipController';
-import 'babel-polyfill';
 
 const allControllers = {
   Films: {
