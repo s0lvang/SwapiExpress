@@ -26,7 +26,7 @@ export default {
     // If a user searches, it will be saved in the database with query and model.
     searchController.saveSearch(search, 'people');
     return Character
-      .findAll({
+      .findAndCountAll({
         where: {
           [Op.or]: [
             {

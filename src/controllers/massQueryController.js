@@ -79,7 +79,7 @@ export default {
       const boxName = checkedBoxes[boxNum];
       const currentModel = [];
       newRes.send = (responseArray) => {
-        responseArray.forEach((response) => {
+        responseArray.rows.forEach((response) => {
           const result = response.dataValues;
           currentModel.push(result);
         });
