@@ -16,32 +16,44 @@ export default {
       });
   },
   list(req, res) {
-    if (req.query.search || req.body.search) return this.search(req, res);
-    return Character.all()
+    const exclude = req.query.exclude || '';
+    if (req.query.search || req.body.search) {
+      return this.search(req, res, exclude);
+    }
+    return Character.findAll({
+      where: {
+        [Op.not]: {
+          gender: {
+            [Op.or]: exclude.split(','),
+          },
+        },
+      },
+    })
       .then(person => res.status(200).send(person))
       .catch(error => res.status(400).send(error));
   },
-  search(req, res) {
-    const search = req.body.search != null ? `%${req.body.search}%` : `%${req.query.search}%`;
+  search(req, res, exclude) {
+    const search = `%${req.query.search || req.body.search}%`;
     // If a user searches, it will be saved in the database with query and model.
     searchController.saveSearch(search, 'people');
-    return Character
-      .findAll({
-        where: {
-          [Op.or]: [
-            {
-              name: {
-                [Op.iLike]: search,
-              },
+    return Character.findAll({
+      where: {
+        [Op.and]: [
+          {
+            name: {
+              [Op.iLike]: search,
             },
-            {
+          },
+          {
+            [Op.not]: {
               gender: {
-                [Op.iLike]: search,
+                [Op.or]: exclude.split(','),
               },
             },
-          ],
-        },
-      })
+          },
+        ],
+      },
+    })
       .then(person => res.status(201).send(person))
       .catch(error => res.status(400).send(error));
   },
