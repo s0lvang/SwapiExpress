@@ -26,6 +26,7 @@ const parseValue = async (value, api) => {
   const processedPlanet = {
     id: value.pk,
     transportId: value.pk,
+    homeworld: fields.homeworld || null,
     ...fields,
 
   };

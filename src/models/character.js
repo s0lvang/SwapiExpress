@@ -35,7 +35,7 @@ const character = (sequelize, DataTypes) => {
   });
   Character.associate = (models) => {
     const { Planet } = models;
-    Character.belongsTo(Planet, { as: 'homeworld' });
+    Character.belongsTo(Planet, { foreignKey: 'homeworld' });
   };
 
   return Character;
