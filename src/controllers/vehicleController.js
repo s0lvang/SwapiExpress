@@ -49,7 +49,7 @@ export default {
       .then((vehicle) => {
         if (vehicle || vehicle.length > 0) {
           // If a user searches successfully, it will be saved in the database with query and model.
-          const saveUrl = `http://it2810-06.idi.ntnu.no/api${req.url}`;
+          const saveUrl = `${req.originalUrl}`;
           searchController.saveSearch(saveUrl, req.query.search, 'vehicles');
         }
         return res.status(200).send(vehicle);
