@@ -37,15 +37,14 @@ const allControllers = {
 
 const controllerModels = Object.values(allControllers);
 
-const paginatedModel = (body, models) => {
+const paginateModel = (body, models) => {
   const { page, limit } = body;
   const end = page * limit;
   const start = page * limit - limit;
-  const pages = Math.round(models.length / limit);
-  const newResult = models.slice(start, end);
+  const newResult = models.rows.slice(start, end);
   return {
-    pages,
-    result: newResult,
+    ...models,
+    rows: newResult,
   };
 };
 
@@ -56,6 +55,40 @@ const getResponse = (res) => {
     rows.map(value => value.dataValues);
   };
   return newRes;
+};
+
+const getIdentifier = (value) => {
+  let identifier = value.name || value.title;
+  identifier = identifier || value.Transport.name;
+  return identifier;
+};
+
+const orderedSort = (firstValue, secondValue, order) => {
+  const larger = order === 'ASC' ? 1 : -1;
+  const smaller = order === 'ASC' ? -1 : 1;
+  if (firstValue > secondValue) return larger;
+  if (firstValue < secondValue) return smaller;
+  return 0;
+};
+
+const sortModel = (body, models) => {
+  const { order } = body;
+  const sortedList = models.rows.sort((first, second) => {
+    const firstIdentifier = getIdentifier(first);
+    const secondIdentifier = getIdentifier(second);
+    return orderedSort(firstIdentifier, secondIdentifier, order);
+  });
+  const sortedModel = {
+    ...models,
+    rows: sortedList,
+  };
+  return sortedModel;
+};
+
+const processModel = (body, pureModel) => {
+  const sortedModel = sortModel(body, pureModel);
+  const paginatedModel = paginateModel(body, sortedModel);
+  return paginatedModel;
 };
 
 // Queries all the controllers and sends one result
@@ -73,8 +106,8 @@ export default {
   },
   // Queries based on the types wanted, e.g. 'Species, Characters'.
   async search(req, res) {
-    const { checkedBoxes } = req.body;
-    let checkedModels = [];
+    const { checkedBoxes, limit } = req.body;
+    let models = [];
     const newRes = cloneDeep(res);
     for (const boxNum in checkedBoxes) {
       const boxName = checkedBoxes[boxNum];
@@ -92,9 +125,15 @@ export default {
           await model.list(req, newRes);
         }
       }
-      checkedModels = checkedModels.concat(currentModel);
+      models = models.concat(currentModel);
     }
     searchController.saveSearch(req.body.search, checkedBoxes.join(', '));
-    res.status(200).send(paginatedModel(req.body, checkedModels));
+    const pages = Math.round(models.length / limit);
+    const pureModel = {
+      pages,
+      rows: models,
+    };
+    const processedModel = processModel(req.body, pureModel);
+    res.status(200).send(processedModel);
   },
 };

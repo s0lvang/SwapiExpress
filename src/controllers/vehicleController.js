@@ -25,7 +25,6 @@ export default {
     const { limit, offset } = req.query;
     const { saveSearch } = req.body;
     if (saveSearch == null) searchController.saveSearch(search, 'people');
-    console.log(saveSearch);
     // If a user searches, it will be saved in the database with query and model.
     return Vehicle.findAndCountAll({
       limit,

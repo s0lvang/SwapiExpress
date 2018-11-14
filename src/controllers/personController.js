@@ -36,14 +36,26 @@ export default {
       .catch(error => res.status(400).send(error));
   },
   search(req, res, exclude) {
+    // Gets the search query from either POST or GET
     const search = `%${req.query.search || req.body.search}%`;
-    const { limit, offset } = req.query;
     const { saveSearch } = req.body;
-    if (saveSearch == null) searchController.saveSearch(search, 'people');
+    // If there is a GET query, take these values
+    const {
+      limit,
+      offset,
+      column,
+      value,
+    } = req.query;
+    // Sets default order by values
+    const orderColumn = column || 'id';
+    const orderValue = value || 'ASC';
+    // Stops the mass post query from posting to the Search table, works for GET queries
     // If a user searches, it will be saved in the database with query and model.
+    if (saveSearch == null) searchController.saveSearch(search, 'people');
     return Character.findAndCountAll({
       limit,
       offset,
+      order: [[orderColumn, orderValue]],
       where: {
         [Op.and]: [
           {
