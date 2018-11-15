@@ -48,8 +48,6 @@ export default {
       sortBy, order, limit, offset,
     } = req.query;
     // Stops the mass post query from posting to the Search table, works for GET queries
-    // If a user searches, it will be saved in the database with query and model.
-    if (saveSearch == null) searchController.saveSearch(search, 'people');
     return Character.findAndCountAll({
       order: [ // Sorting by attribute and type
         [sortBy.toLowerCase(), order.toUpperCase()],
@@ -74,7 +72,16 @@ export default {
       },
       include: Planet,
     })
-      .then(person => res.status(201).send(person))
+      .then((person) => {
+        if (person && person.count > 0) {
+          if (saveSearch == null) {
+            // If user searches successfully, it will be saved in the database with query and model.
+            const saveUrl = `${req.originalUrl}`;
+            searchController.saveSearch(saveUrl, req.query.search, 'people');
+          }
+        }
+        return res.status(200).send(person);
+      })
       .catch(error => res.status(400).send(error));
   },
 };

@@ -31,9 +31,7 @@ export default {
     const {
       sortBy, order, limit, offset,
     } = req.query;
-    // If a user searches, it will be saved in the database with query and model.
     const { saveSearch } = req.body;
-    if (saveSearch == null) searchController.saveSearch(search, 'people');
     return Species
       .findAndCountAll({
         order: [ // Sorting by attribute and type
@@ -66,7 +64,16 @@ export default {
           ],
         },
       })
-      .then(species => res.status(201).send(species))
+      .then((species) => {
+        if (species && species.count > 0) {
+          if (saveSearch == null) {
+            // If user searches successfully, it will be saved in the database with query and model.
+            const saveUrl = `${req.originalUrl}`;
+            searchController.saveSearch(saveUrl, req.query.search, 'species');
+          }
+        }
+        return res.status(200).send(species);
+      })
       .catch(error => res.status(400).send(error));
   },
 };
