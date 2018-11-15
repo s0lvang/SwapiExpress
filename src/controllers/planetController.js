@@ -1,6 +1,7 @@
 import { Op } from 'sequelize';
 import db from '../models/index';
 import searchController from './searchController';
+import searchQuery from '../utils/searchQuery';
 
 const { Planet } = db;
 
@@ -13,33 +14,16 @@ export default {
   search(req) {
     const query = Object.keys(req.body).length ? req.body : req.query;
     const { limit, offset, search } = query;
-    const searchString = `%${search}%`;
     // If a user searches, it will be saved in the database with query and model.
     // const { saveSearch } = req.body;
     // if (saveSearch) searchController.saveSearch(search, 'people');
     return Planet
       .findAndCountAll({
-        limit: limit || 0,
+        limit: limit || 100,
         offset: offset || 0,
         raw: true,
         where: {
-          [Op.or]: [
-            {
-              name: {
-                [Op.iLike]: searchString,
-              },
-            },
-            {
-              climate: {
-                [Op.iLike]: searchString,
-              },
-            },
-            {
-              terrain: {
-                [Op.iLike]: searchString,
-              },
-            },
-          ],
+          [Op.or]: searchQuery(search, ['name', 'terrain', 'name']),
         },
       });
   },

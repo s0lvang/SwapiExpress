@@ -33,7 +33,7 @@ export default {
     // If a user searches, it will be saved in the database with query and model.
     // if (saveSearch) searchController.saveSearch(search, 'people');
     return Character.findAndCountAll({
-      limit: limit || 0,
+      limit: limit || 100,
       offset: offset || 0,
       order: [[orderColumn, orderValue]],
       raw: true,

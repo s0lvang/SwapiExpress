@@ -69,8 +69,10 @@ export default {
   // Queries based on the types wanted, e.g. 'Species, Characters'.
   async search(req, res) {
     const { checkedBoxes, limit } = req.body;
-    let models = checkedBoxes.map(async controllerName => allControllers[controllerName].search(req));
-    models = await Promise.all(models).then(awaitedModels => awaitedModels.map(model => model.rows));
+    let models = checkedBoxes
+      .map(async controllerName => allControllers[controllerName].search(req));
+    models = await Promise.all(models)
+      .then(awaitedModels => awaitedModels.map(model => model.rows));
     models = [].concat([], ...models);
 
     searchController.saveSearch(req.body.search, checkedBoxes.join(', '));

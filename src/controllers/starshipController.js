@@ -1,6 +1,7 @@
 import { Op } from 'sequelize';
 import db from '../models/index';
 import searchController from './searchController';
+import searchQuery from '../utils/searchQuery';
 
 const { Starship, Transport } = db;
 
@@ -14,7 +15,6 @@ export default {
   search(req) {
     const query = Object.keys(req.body).length ? req.body : req.query;
     const { search, limit, offset } = query;
-    const searchString = `%${search}%`;
     // const { saveSearch } = req.body;
     // if (saveSearch == null) searchController.saveSearch(search, 'people');
     // If a user searches, it will be saved in the database with query and model.
@@ -25,23 +25,7 @@ export default {
       include: {
         model: Transport,
         where: {
-          [Op.or]: [
-            {
-              name: {
-                [Op.iLike]: searchString,
-              },
-            },
-            {
-              model: {
-                [Op.iLike]: searchString,
-              },
-            },
-            {
-              manufacturer: {
-                [Op.iLike]: searchString,
-              },
-            },
-          ],
+          [Op.or]: searchQuery(search, ['name', 'model', 'manufacturer']),
         },
       },
     });

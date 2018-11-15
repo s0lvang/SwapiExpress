@@ -1,6 +1,7 @@
 import { Op } from 'sequelize';
 import db from '../models/index';
 import searchController from './searchController';
+import searchQuery from '../utils/searchQuery';
 
 const { Vehicle, Transport } = db;
 
@@ -13,34 +14,17 @@ export default {
   async search(req) {
     const query = Object.keys(req.body).length ? req.body : req.query;
     const { limit, offset, search } = query;
-    const searchString = `%${search}%`;
     // const { saveSearch } = req.query || req.body;
     // if (saveSearch === null) searchController.saveSearch(search, 'people');
     // If a user searches, it will be saved in the database with query and model.
     return Vehicle.findAndCountAll({
-      limit: limit || 0,
+      limit: limit || 100,
       offset: offset || 0,
       raw: true,
       include: {
         model: Transport,
         where: {
-          [Op.or]: [
-            {
-              name: {
-                [Op.iLike]: searchString,
-              },
-            },
-            {
-              model: {
-                [Op.iLike]: searchString,
-              },
-            },
-            {
-              manufacturer: {
-                [Op.iLike]: searchString,
-              },
-            },
-          ],
+          [Op.or]: searchQuery(search, ['name', 'model', 'manufacturer']),
         },
       },
     });
