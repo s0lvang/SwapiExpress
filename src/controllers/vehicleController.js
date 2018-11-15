@@ -16,17 +16,28 @@ export default {
   },
   list(req, res) {
     if (req.query.search || req.body.search) return this.search(req, res);
-    return Vehicle.all({ include: Transport })
+    const { sortBy, order } = req.query;
+    return Vehicle.all({
+      order: [
+        [sortBy.toLowerCase(), order.toUpperCase()],
+      ],
+      include: Transport,
+    })
       .then(vehicle => res.status(200).send(vehicle))
       .catch(error => res.status(400).send(error));
   },
   search(req, res) {
     const search = req.body.search != null ? `%${req.body.search}%` : `%${req.query.search}%`;
-    const { limit, offset } = req.query;
+    const {
+      sortBy, order, limit, offset,
+    } = req.query;
     const { saveSearch } = req.body;
     if (saveSearch == null) searchController.saveSearch(search, 'people');
     // If a user searches, it will be saved in the database with query and model.
     return Vehicle.findAndCountAll({
+      order: [ // Sorting by attribute and type
+        [sortBy.toLowerCase(), order.toUpperCase()],
+      ],
       limit,
       offset,
       include: {

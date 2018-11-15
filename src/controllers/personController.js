@@ -20,7 +20,11 @@ export default {
     if (req.query.search || req.body.search) {
       return this.search(req, res, exclude);
     }
+    const { sortBy, order } = req.query;
     return Character.findAll({
+      order: [
+        [sortBy.toLowerCase(), order.toUpperCase()],
+      ],
       where: {
         [Op.not]: {
           gender: {
@@ -41,21 +45,17 @@ export default {
     const { saveSearch } = req.body;
     // If there is a GET query, take these values
     const {
-      limit,
-      offset,
-      column,
-      value,
+      sortBy, order, limit, offset,
     } = req.query;
-    // Sets default order by values
-    const orderColumn = column || 'id';
-    const orderValue = value || 'ASC';
     // Stops the mass post query from posting to the Search table, works for GET queries
     // If a user searches, it will be saved in the database with query and model.
     if (saveSearch == null) searchController.saveSearch(search, 'people');
     return Character.findAndCountAll({
+      order: [ // Sorting by attribute and type
+        [sortBy.toLowerCase(), order.toUpperCase()],
+      ],
       limit,
       offset,
-      order: [[orderColumn, orderValue]],
       where: {
         [Op.and]: [
           {
