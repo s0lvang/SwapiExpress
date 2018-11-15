@@ -21,7 +21,6 @@ export default (app) => {
   app.get('/api/starships', starshipController.list.bind(starshipController));
   app.get('/api/vehicles', vehicleController.list.bind(vehicleController));
 
-  app.get('/api/all', massQueryController.list);
   app.post('/api/all', massQueryController.search);
 
   app.get('/api/search', searchController.list);

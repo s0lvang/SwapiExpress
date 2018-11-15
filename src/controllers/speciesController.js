@@ -12,16 +12,18 @@ export default {
       .catch(error => res.status(400).send(error));
   },
   search(req) {
-    const search = req.body.search || req.query.search;
+    const query = Object.keys(req.body).length ? req.body : req.query;
+    const { limit, offset, search } = query;
     const searchString = `%${search}%`;
-    const { limit, offset } = req.query;
+    console.log(limit || 0);
     // If a user searches, it will be saved in the database with query and model.
-    const { saveSearch } = req.body;
-    if (saveSearch == null) searchController.saveSearch(search, 'people');
+    // const { saveSearch } = req.body;
+    // if (saveSearch == null) searchController.saveSearch(search, 'people');
     return Species
       .findAndCountAll({
-        limit,
-        offset,
+        limit: limit || 0,
+        offset: offset || 0,
+        raw: true,
         where: {
           [Op.or]: [
             {

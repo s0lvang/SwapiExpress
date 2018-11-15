@@ -10,16 +10,17 @@ export default {
       .then(vehicle => res.status(200).send(vehicle))
       .catch(error => res.status(400).send(error));
   },
-  search(req) {
-    const search = req.body.search || req.query.search;
+  async search(req) {
+    const query = Object.keys(req.body).length ? req.body : req.query;
+    const { limit, offset, search } = query;
     const searchString = `%${search}%`;
-    const { limit, offset } = req.query;
-    const { saveSearch } = req.body;
-    if (saveSearch == null) searchController.saveSearch(search, 'people');
+    // const { saveSearch } = req.query || req.body;
+    // if (saveSearch === null) searchController.saveSearch(search, 'people');
     // If a user searches, it will be saved in the database with query and model.
     return Vehicle.findAndCountAll({
-      limit,
-      offset,
+      limit: limit || 0,
+      offset: offset || 0,
+      raw: true,
       include: {
         model: Transport,
         where: {
