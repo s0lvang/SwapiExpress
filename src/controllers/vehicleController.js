@@ -16,7 +16,7 @@ export default {
   },
   list(req, res) {
     if (req.query.search || req.body.search) return this.search(req, res);
-    const { sortBy, order } = req.query;
+    const { sortBy = 'id', order = 'asc' } = req.query;
     return Vehicle.all({
       order: [
         [sortBy.toLowerCase(), order.toUpperCase()],
@@ -29,7 +29,7 @@ export default {
   search(req, res) {
     const search = req.body.search != null ? `%${req.body.search}%` : `%${req.query.search}%`;
     const {
-      sortBy, order, limit, offset,
+      sortBy = 'id', order = 'asc', limit, offset,
     } = req.query;
     const { saveSearch } = req.body;
     return Vehicle.findAndCountAll({

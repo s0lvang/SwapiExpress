@@ -20,7 +20,7 @@ export default {
     if (req.query.search || req.body.search) {
       return this.search(req, res, exclude);
     }
-    const { sortBy, order } = req.query;
+    const { sortBy = 'id', order = 'asc' } = req.query;
     return Character.findAll({
       order: [
         [sortBy.toLowerCase(), order.toUpperCase()],
@@ -45,7 +45,7 @@ export default {
     const { saveSearch } = req.body;
     // If there is a GET query, take these values
     const {
-      sortBy, order, limit, offset,
+      sortBy = 'id', order = 'asc', limit, offset,
     } = req.query;
     // Stops the mass post query from posting to the Search table, works for GET queries
     return Character.findAndCountAll({
