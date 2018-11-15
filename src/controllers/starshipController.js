@@ -23,8 +23,6 @@ export default {
     const search = req.body.search != null ? `%${req.body.search}%` : `%${req.query.search}%`;
     const { limit, offset } = req.query;
     const { saveSearch } = req.body;
-    if (saveSearch == null) searchController.saveSearch(search, 'people');
-    // If a user searches, it will be saved in the database with query and model.
     return Starship.findAndCountAll({
       limit,
       offset,
@@ -50,7 +48,17 @@ export default {
           ],
         },
       },
-    }).then(starship => res.status(201).send(starship))
+    })
+      .then((starship) => {
+        if (starship && starship.count > 0) {
+          if (saveSearch == null) {
+            // If user searches successfully, it will be saved in the database with query and model.
+            const saveUrl = `${req.originalUrl}`;
+            searchController.saveSearch(saveUrl, req.query.search, 'starships');
+          }
+        }
+        return res.status(200).send(starship);
+      })
       .catch(error => res.status(400).send(error));
   },
 };

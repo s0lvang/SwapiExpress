@@ -24,8 +24,6 @@ export default {
     const search = req.body.search != null ? `%${req.body.search}%` : `%${req.query.search}%`;
     const { limit, offset } = req.query;
     const { saveSearch } = req.body;
-    if (saveSearch == null) searchController.saveSearch(search, 'people');
-    // If a user searches, it will be saved in the database with query and model.
     return Vehicle.findAndCountAll({
       limit,
       offset,
@@ -52,7 +50,16 @@ export default {
         },
       },
     })
-      .then(vehicle => res.status(201).send(vehicle))
+      .then((vehicle) => {
+        if (vehicle && vehicle.count > 0) {
+          if (saveSearch == null) {
+            // If user searches successfully, it will be saved in the database with query and model.
+            const saveUrl = `${req.originalUrl}`;
+            searchController.saveSearch(saveUrl, req.query.search, 'vehicles');
+          }
+        }
+        return res.status(200).send(vehicle);
+      })
       .catch(error => res.status(400).send(error));
   },
 };

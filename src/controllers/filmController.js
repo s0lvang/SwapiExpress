@@ -24,9 +24,7 @@ export default {
   search(req, res) {
     const search = req.body.search != null ? `%${req.body.search}%` : `%${req.query.search}%`;
     const { limit, offset } = req.query;
-    // If a user searches, it will be saved in the database with query and model.
     const { saveSearch } = req.body;
-    if (saveSearch == null) searchController.saveSearch(search, 'people');
     return Film
       .findAndCountAll({
         limit,
@@ -56,7 +54,16 @@ export default {
           ],
         },
       })
-      .then(film => res.status(201).send(film))
+      .then((film) => {
+        if (film && film.count > 0) {
+          if (saveSearch == null) {
+            // If user searches successfully, it will be saved in the database with query and model.
+            const saveUrl = `${req.originalUrl}`;
+            searchController.saveSearch(saveUrl, req.query.search, 'films');
+          }
+        }
+        return res.status(200).send(film);
+      })
       .catch(error => res.status(400).send(error));
   },
 };
