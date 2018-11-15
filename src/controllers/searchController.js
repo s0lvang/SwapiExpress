@@ -22,4 +22,9 @@ export default {
       model,
     });
   },
+  countAll(req, res) {
+    return Search.count()
+      .then(count => res.status(200).send({ count }))
+      .catch(error => res.status(400).send(error));
+  },
 };
