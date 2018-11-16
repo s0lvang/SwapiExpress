@@ -1,74 +1,46 @@
 import { Op } from 'sequelize';
 import db from '../models/index';
 import searchController from './searchController';
+import searchQuery from '../utils/searchQuery';
 
 const { Planet } = db;
 
 export default {
-  create(req, res) {
-    return Planet
-      .create({
-        id: req.body.id,
-        ...req.body,
-      })
-      .then(planet => res.status(201).send(planet))
-      .catch(error => res.status(400).send(error));
-  },
   list(req, res) {
-    if (req.query.search || req.body.search) return this.search(req, res);
-    const { sortBy = 'id', order = 'asc' } = req.query;
-    return Planet
-      .all({
-        order: [
-          [sortBy.toLowerCase(), order.toUpperCase()],
-        ],
+    this.search(req, res)
+      .then((planet) => {
+        if (planet.count && req.query.search) {
+          // If user searches successfully, it will be saved in the database with query and model.
+          searchController.saveSearch(
+            req.originalUrl,
+            req.query.search,
+            'planet',
+          );
+        }
+        return planet;
       })
       .then(planet => res.status(200).send(planet))
       .catch(error => res.status(400).send(error));
   },
-  search(req, res) {
-    const search = req.body.search != null ? `%${req.body.search}%` : `%${req.query.search}%`;
+  search(req) {
+    const query = Object.keys(req.body).length ? req.body : req.query;
     const {
-      sortBy = 'id', order = 'asc', limit, offset,
-    } = req.query;
-    const { saveSearch } = req.body;
-    return Planet
-      .findAndCountAll({
-        order: [ // Sorting by attribute and type
-          [sortBy.toLowerCase(), order.toUpperCase()],
-        ],
-        limit,
-        offset,
-        where: {
-          [Op.or]: [
-            {
-              name: {
-                [Op.iLike]: search,
-              },
-            },
-            {
-              climate: {
-                [Op.iLike]: search,
-              },
-            },
-            {
-              terrain: {
-                [Op.iLike]: search,
-              },
-            },
-          ],
-        },
-      })
-      .then((planet) => {
-        if (planet && planet.count > 0) {
-          if (saveSearch == null) {
-            // If user searches successfully, it will be saved in the database with query and model.
-            const saveUrl = `${req.originalUrl}`;
-            searchController.saveSearch(saveUrl, req.query.search, 'planet');
-          }
-        }
-        return res.status(200).send(planet);
-      })
-      .catch(error => res.status(400).send(error));
+      limit = 100,
+      offset = 0,
+      search,
+      sortBy = 'id',
+      order = 'asc',
+    } = query;
+    // If a user searches, it will be saved in the database with query and model.
+    // const { saveSearch } = req.body;
+    // if (saveSearch) searchController.saveSearch(search, 'people');
+    return Planet.findAndCountAll({
+      limit,
+      offset,
+      order: [[sortBy.toLowerCase(), order.toUpperCase()]],
+      where: {
+        [Op.or]: searchQuery(search, ['name', 'terrain', 'name']),
+      },
+    });
   },
 };

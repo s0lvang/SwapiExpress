@@ -1,5 +1,3 @@
-/* eslint-disable no-await-in-loop, no-return-await, guard-for-in, no-restricted-syntax */
-import { cloneDeep } from 'lodash';
 import filmController from './filmController';
 import personController from './personController';
 import speciesController from './speciesController';
@@ -9,33 +7,14 @@ import starshipController from './starshipController';
 import searchController from './searchController';
 
 const allControllers = {
-  Films: {
-    model: filmController,
-    name: 'films',
-  },
-  Characters: {
-    model: personController,
-    name: 'characters',
-  },
-  Species: {
-    model: speciesController,
-    name: 'species',
-  },
-  Planets: {
-    model: planetController,
-    name: 'planets',
-  },
-  Vehicles: {
-    model: vehicleController,
-    name: 'vehicles',
-  },
-  Starships: {
-    model: starshipController,
-    name: 'starships',
-  },
+  films: filmController,
+  characters: personController,
+  species: speciesController,
+  planets: planetController,
+  vehicles: vehicleController,
+  starships: starshipController,
 };
 
-const controllerModels = Object.values(allControllers);
 
 const paginateModel = (body, models) => {
   const { page, limit } = body;
@@ -48,18 +27,10 @@ const paginateModel = (body, models) => {
   };
 };
 
-const getResponse = (res) => {
-  const newRes = cloneDeep(res);
-  newRes.send = (responseArray) => {
-    const { rows } = responseArray;
-    rows.map(value => value.dataValues);
-  };
-  return newRes;
-};
 
 const getIdentifier = (value) => {
   let identifier = value.name || value.title;
-  identifier = identifier || value.Transport.name;
+  identifier = identifier || value['transport.name']; // value.transport
   return identifier;
 };
 
@@ -93,40 +64,15 @@ const processModel = (body, pureModel) => {
 
 // Queries all the controllers and sends one result
 export default {
-  async list(req, res) {
-    const newRes = getResponse(res);
-    const promises = controllerModels.map(async (controller) => {
-      const { model } = controller;
-      return await model.list(req, newRes);
-    });
-    const models = [];
-    await Promise.all(promises)
-      .then(promiseArray => promiseArray.map(nested => nested.map(value => models.push(value))));
-    res.status(200).send(models);
-  },
   // Queries based on the types wanted, e.g. 'Species, Characters'.
   async search(req, res) {
     const { checkedBoxes, limit } = req.body;
-    let models = [];
-    const newRes = cloneDeep(res);
-    for (const boxNum in checkedBoxes) {
-      const boxName = checkedBoxes[boxNum];
-      const currentModel = [];
-      newRes.send = (responseArray) => {
-        responseArray.rows.forEach((response) => {
-          const result = response.dataValues;
-          result.fixture = boxName;
-          currentModel.push(result);
-        });
-      };
-      for (const modelNum in controllerModels) {
-        const { model, name } = controllerModels[modelNum];
-        if (name === boxName) {
-          await model.list(req, newRes);
-        }
-      }
-      models = models.concat(currentModel);
-    }
+    let models = checkedBoxes
+      .map(async controllerName => allControllers[controllerName].search(req));
+    models = await Promise.all(models)
+      .then(awaitedModels => awaitedModels.map(model => model.rows));
+    models = [].concat([], ...models);
+
     searchController.saveSearch(req.body.search, checkedBoxes.join(', '));
     const pages = Math.round(models.length / limit);
     const pureModel = {

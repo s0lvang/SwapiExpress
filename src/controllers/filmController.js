@@ -1,79 +1,37 @@
 import { Op } from 'sequelize';
 import db from '../models/index';
 import searchController from './searchController';
+import searchQuery from '../utils/searchQuery';
 
 const { Film } = db;
 
 export default {
-  create(req, res) {
-    return Film
-      .create({
-        id: req.body.id,
-        ...req.body,
-      })
-      .then(film => res.status(201).send(film))
-      .catch(error => res.status(400).send(error));
-  },
   list(req, res) {
-    if (req.query.search || req.body.search) return this.search(req, res);
-    const { sortBy = 'id', order = 'asc' } = req.query;
-    return Film
-      .all({
-        order: [
-          [sortBy.toLowerCase(), order.toUpperCase()],
-        ],
-      })
+    return this.search(req, res).then((film) => {
+      if (film.count && req.query.search) {
+        // If user searches successfully, it will be saved in the database with query and model.
+        searchController.saveSearch(req.originalUrl, req.query.search, 'films');
+      }
+      return film;
+    })
       .then(film => res.status(200).send(film))
       .catch(error => res.status(400).send(error));
   },
-  search(req, res) {
-    const search = req.body.search != null ? `%${req.body.search}%` : `%${req.query.search}%`;
+  search(req) {
+    const query = Object.keys(req.body).length ? req.body : req.query;
     const {
-      sortBy = 'id', order = 'asc', limit, offset,
-    } = req.query;
-    const { saveSearch } = req.body;
+      sortBy = 'id', order = 'asc', limit = 100, offset = 0, search,
+    } = query;
     return Film
       .findAndCountAll({
+        limit,
+        offset,
         order: [ // Sorting by attribute and type
           [sortBy.toLowerCase(), order.toUpperCase()],
         ],
-        limit,
-        offset,
         where: {
-          [Op.or]: [
-            {
-              title: {
-                [Op.iLike]: search,
-              },
-            },
-            {
-              producer: {
-                [Op.iLike]: search,
-              },
-            },
-            {
-              director: {
-                [Op.iLike]: search,
-              },
-            },
-            {
-              opening_crawl: {
-                [Op.iLike]: search,
-              },
-            },
-          ],
+          [Op.or]: searchQuery(search, ['title', 'producer', 'director', 'opening_crawl']),
         },
-      })
-      .then((film) => {
-        if (film && film.count > 0) {
-          if (saveSearch == null) {
-            // If user searches successfully, it will be saved in the database with query and model.
-            const saveUrl = `${req.originalUrl}`;
-            searchController.saveSearch(saveUrl, req.query.search, 'films');
-          }
-        }
-        return res.status(200).send(film);
-      })
-      .catch(error => res.status(400).send(error));
+      });
   },
 };
