@@ -9,5 +9,6 @@ The goal of this database was to partly mirror the Star Wars A
 ## Testing
 
 ## Technologies
+For å hoste databaseserveren har det blitt brukt Node og Expressbilbioteket.  
 
 ## Co-operation
