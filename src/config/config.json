@@ -1,22 +1,22 @@
 {
   "development": {
-    "user": "postgres",
-    "username": "postgres",
-    "password": "123456",
+    "username": "pallarsen",
+    "password": null,
     "database": "swapi",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "logging": false
   },
   "test": {
-    "username": "postgres",
-    "password": "123456",
+    "username": "pallarsen",
+    "password": null,
     "database": "swapi",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
-    "username": "postgres",
-    "password": "123456",
+    "username": "pallarsen",
+    "password": null,
     "database": "swapi",
     "host": "127.0.0.1",
     "dialect": "postgres"
