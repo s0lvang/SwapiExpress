@@ -32,6 +32,9 @@ const species = (sequelize, DataTypes) => {
     language: {
       type: DataTypes.STRING,
     },
+    model: {
+      type: DataTypes.STRING,
+    },
   },
   {
     timestamps: false,

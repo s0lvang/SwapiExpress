@@ -29,6 +29,9 @@ const character = (sequelize, DataTypes) => {
     gender: {
       type: DataTypes.STRING,
     },
+    model: {
+      type: DataTypes.STRING,
+    },
   },
   {
     timestamps: false,

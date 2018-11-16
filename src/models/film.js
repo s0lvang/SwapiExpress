@@ -24,6 +24,9 @@ const film = (sequelize, DataTypes) => {
     opening_crawl: {
       type: DataTypes.TEXT,
     },
+    model: {
+      type: DataTypes.STRING,
+    },
   },
   {
     timestamps: false,
