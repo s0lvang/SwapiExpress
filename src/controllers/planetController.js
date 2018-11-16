@@ -20,7 +20,7 @@ export default {
         return planet;
       })
       .then(planet => res.status(200).send(planet))
-      .catch(error => res.status(400).send(error));
+      .catch(() => res.status(400).send('Oopsie Woopsie we made a fucky wucky (400 bad request)'));
   },
   search(req) {
     const query = Object.keys(req.body).length ? req.body : req.query;
@@ -31,9 +31,6 @@ export default {
       sortBy = 'id',
       order = 'asc',
     } = query;
-    // If a user searches, it will be saved in the database with query and model.
-    // const { saveSearch } = req.body;
-    // if (saveSearch) searchController.saveSearch(search, 'people');
     return Planet.findAndCountAll({
       limit,
       offset,

@@ -70,7 +70,8 @@ export default {
     let models = checkedBoxes
       .map(async controllerName => allControllers[controllerName].search(req));
     models = await Promise.all(models)
-      .then(awaitedModels => awaitedModels.map(model => model.rows));
+      .then(awaitedModels => awaitedModels.map(model => model.rows))
+      .catch(() => res.status(400).send('Oopsie Woopsie we made a fucky wucky (400 bad request)'));
     models = [].concat([], ...models);
 
     const pages = Math.round(models.length / limit);
