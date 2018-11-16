@@ -11,6 +11,9 @@ const starship = (sequelize, DataTypes) => {
     starship_class: {
       type: DataTypes.STRING,
     },
+    model: {
+      type: DataTypes.STRING,
+    },
   },
   {
     timestamps: false,

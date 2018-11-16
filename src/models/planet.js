@@ -41,6 +41,9 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    model: {
+      type: DataTypes.STRING,
+    },
   },
   {
     timestamps: false,

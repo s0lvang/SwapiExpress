@@ -8,6 +8,9 @@ const vehicle = (sequelize, DataTypes) => {
     vehicle_class: {
       type: DataTypes.STRING,
     },
+    model: {
+      type: DataTypes.STRING,
+    },
   },
   {
     timestamps: false,

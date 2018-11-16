@@ -14,24 +14,25 @@ const fixtures = [
 ];
 
 
-const post = async (value, url) => {
+const insert = async (value, url) => {
   const model = db[url];
   model.create(value);
 };
 
-const parseValue = async (value, api) => {
+const parseValue = async (value, model) => {
   const { fields } = value;
   delete fields.edited;
   delete fields.created;
-  const processedPlanet = {
+  const processObject = {
     id: value.pk,
     transportId: value.pk,
     homeworld: fields.homeworld || null,
+    model,
     ...fields,
 
   };
-  await post(processedPlanet, api);
-  return processedPlanet;
+  await insert(processObject, model);
+  return processObject;
 };
 
 const iterateValues = async (fixture) => {
