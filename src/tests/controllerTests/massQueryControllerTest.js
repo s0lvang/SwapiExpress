@@ -103,4 +103,20 @@ describe('Mass Query Controller', () => {
       expect(sortedModel.rows).to.eql(sortedRowsAsc);
     });
   });
+
+  describe('Sort and paginate the models', () => {
+    it('Sort models ASC, limit 2 rows', () => {
+      const body = { ...paginatedMockBody, order: orderASC };
+      const reverseMockModel = { rows: sortedRowsAsc };
+      const sortedMockModel = processModel(body, reverseMockModel);
+      expect(sortedMockModel.rows).to.eql(sortedRowsAsc.slice(0, 2));
+    });
+    
+    it('Sort models DESC, limit 2 rows', () => {
+      const body = { ...paginatedMockBody, order: orderDESC };
+      const reverseMockModel = { rows: sortedRowsAsc };
+      const sortedMockModel = processModel(body, reverseMockModel);
+      expect(sortedMockModel.rows).to.eql(sortedRowsDesc.slice(0, 2));
+    });
+  });
 });
