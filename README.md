@@ -32,6 +32,14 @@ Denne databasens mål var å delvis speile Star Wars API'et, kjent som [Swapi](h
 * `/api/search`: Henter ut en liste over de 10 siste suksessfulle søkene som er gjort på et hvilket som helst endepunkt
 * `/api/all`: Post request som chainer kall mot andre endepunkter som er definert i body til requestet
 
+### Parametre
+* `search=`: Henter ut objekter som inneholder søkestrengen i dette parameteret
+* `sortBy=`: Lar brukeren sortere det returnerte resultatet på attributtet spesifisert i dette parameteret, men er "id" som standard
+* `order=`: Kan være enten "asc" (stigende) eller "desc" (synkende), men er "asc" som standard
+* `limit=`: Begrenser antall objekter som returneres fra en nullindeks
+* `offset=`: Spesifiserer en nullindeks fra første objekt i den returnerte listen fra databasen
+* `exclude=`: Parameter på person objekter, som tar inn en liste og ekskluderer kjønn basert på dette
+
 ## Utvikling
 Vår utviklingsprosess har vært basert på agilitet, da mange krav måtte oppfylles for å tilfredsstille målene til de ulike applikasjonene. Det fungerte slik at alle gruppemedlemmene, også de som ikke jobbet med backend, kunne kommentere og legge til nye issues for funksjonalitet som var nødvendig. Disse utviklet vi som regel individuelt, men hjalp hverandre se igjennom merge requests når dette ble aktuelt. I tillegg jobbet vi sammen om funksjonalitet som krysset over hverandre.
 
