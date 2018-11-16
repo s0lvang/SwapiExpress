@@ -1,7 +1,7 @@
 import { Op } from 'sequelize';
 
 const searchQuery = (search, searchTerms) => {
-  const searchString = `%${search}%`;
+  const searchString = search ? `%${search}%` : '*';
   return searchTerms.map((searchTerm) => {
     const rootObject = {};
     rootObject[searchTerm] = { [Op.iLike]: searchString };

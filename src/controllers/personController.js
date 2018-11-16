@@ -29,7 +29,7 @@ export default {
       order = 'asc',
     } = query;
     // Gets the search query from either POST or GET
-    const searchString = `%${search}%`;
+    const searchString = search ? `%${search}%` : '*';
     return Character.findAndCountAll({
       limit,
       offset,
