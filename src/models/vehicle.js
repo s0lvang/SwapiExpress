@@ -10,7 +10,7 @@ const vehicle = (sequelize, DataTypes) => {
     },
     model: {
       type: DataTypes.STRING,
-    }
+    },
   },
   {
     timestamps: false,
