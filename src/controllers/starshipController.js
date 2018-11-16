@@ -28,7 +28,11 @@ export default {
       limit,
       offset,
       order: [
-        [sortBy.toLowerCase(), order.toUpperCase()],
+        [{
+          model: Transport,
+          foreignKey: 'transportId',
+        },
+        sortBy.toLowerCase(), order.toUpperCase()],
       ],
       include: {
         model: Transport,
