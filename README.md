@@ -1,5 +1,16 @@
 # Backend for gruppe 06, 25, 35
 
+##Setup
+
+`git clone`
+Installer Postgresql
+`sudo apt install postgresql`
+Endre passord på postgresbrukeren og lage databasen.
+`sudo -u postgres psql swapi`
+`ALTER USER postgres WITH PASSWORD passordetDitt`
+Endre brukernavn og passord i config.json til postgres og ditt passord. 
+`npm install && npm start`
+
 ## Mål 
 Denne databasens mål var å delvis speile Star Wars API'et, kjent som [Swapi](https://swapi.co/), ved å bygge det opp på nytt med Node. Vi ville dekke så mange bruksområder som mulig, da de tre gruppene som benyttet seg av denne databasen hadde ulike planer for sine applikasjoner. Derfor har vi inkludert mye funksjonalitet som allerede var til stede i Swapi, men i tillegg utviklet annen funksjonalitet som vi følte var nødvendig.
 
