@@ -1,6 +1,6 @@
 # Backend for gruppe 06, 25, 35
 
-##Setup
+## Setup
 
 `git clone`
 Installer Postgresql
@@ -13,6 +13,18 @@ Endre brukernavn og passord i config.json til postgres og ditt passord.
 
 ## Mål 
 Denne databasens mål var å delvis speile Star Wars API'et, kjent som [Swapi](https://swapi.co/), ved å bygge det opp på nytt med Node. Vi ville dekke så mange bruksområder som mulig, da de tre gruppene som benyttet seg av denne databasen hadde ulike planer for sine applikasjoner. Derfor har vi inkludert mye funksjonalitet som allerede var til stede i Swapi, men i tillegg utviklet annen funksjonalitet som vi følte var nødvendig.
+
+## Databasen
+
+### Endepunkter
+* `/api/people`: Henter ut person objekter fra databasen
+* `/api/planets`: Henter ut planet objekter fra databasen
+* `/api/films`: Henter ut film objekter fra databasen
+* `/api/vehicles`: Henter ut vehicle objekter fra databasen
+* `/api/starships`: Henter ut starship objekter fra databasen
+* `/api/species`: Henter ut person objekter fra databasen
+* `/api/search`: Henter ut en liste over de 10 siste suksessfulle søkene som er gjort på et hvilket som helst endepunkt
+* `/api/all`: Post request som chainer kall mot andre endepunkter som er definert i body til requestet
 
 ## Utvikling
 Vår utviklingsprosess har vært basert på agilitet, da mange krav måtte oppfylles for å tilfredsstille målene til de ulike applikasjonene. Det fungerte slik at alle gruppemedlemmene, også de som ikke jobbet med backend, kunne kommentere og legge til nye issues for funksjonalitet som var nødvendig. Disse utviklet vi som regel individuelt, men hjalp hverandre se igjennom merge requests når dette ble aktuelt. I tillegg jobbet vi sammen om funksjonalitet som krysset over hverandre.
