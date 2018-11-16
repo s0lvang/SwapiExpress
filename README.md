@@ -1,5 +1,7 @@
 # Backend for gruppe 06, 25, 35
 
+Apiet ligger [her](http://it2810-06.idi.ntnu.no/api)
+
 ##Setup
 
 `git clone`
@@ -11,6 +13,10 @@ Endre passord på postgresbrukeren og lage databasen.
 Endre brukernavn og passord i config.json til postgres og ditt passord. 
 `npm install && npm start`
 
+## Hva skjer når kjører npm start
+Babel transpilerer koden vår til ES5 og koden kjøres gjennom nodemon. Nodemon er et bibliotek som ser etter endringer i koden og restarter serveren, slik at du får en lignende opplevelse som react-development-server. Derreter kjøres index.js som setter opp express og rutene gjennom src/routes/index.js. Så kalles src/models/index.js, som itererer gjennom modellene som ligger i samme mappe og setter opp tabellene i databasen. Før jsonFetching kalles som henter swapi-dataen fra githuben til
+swapi og setter den inn i databasen.  
+
 ## Mål 
 Denne databasens mål var å delvis speile Star Wars API'et, kjent som [Swapi](https://swapi.co/), ved å bygge det opp på nytt med Node. Vi ville dekke så mange bruksområder som mulig, da de tre gruppene som benyttet seg av denne databasen hadde ulike planer for sine applikasjoner. Derfor har vi inkludert mye funksjonalitet som allerede var til stede i Swapi, men i tillegg utviklet annen funksjonalitet som vi følte var nødvendig.
 
@@ -19,11 +25,15 @@ Vår utviklingsprosess har vært basert på agilitet, da mange krav måtte oppfy
 
 Å kunne jobbe slik fungerte veldig bra. Det var enkelt å hoppe på et nytt issue, da bruken av teknologiene som vi hadde valgt generelt var lett å sette seg inn i. Å velge et issue var generelt uformelt, som gjorde at arbeidet på backenden var svært effektiv. Under utviklingen av hovedapplikasjonene var utviklingsmetodene generelt gjennomført med strengere konvensjoner. Dette kan leses mer om i de aktuelle prosjekt-repositoriene.
 
+## Deployment
+Vi har satt opp en proxy i apache som ruter /api til port 8080. Vi har også satt opp en service som kjører node serveren vår, slik at du kan starte den med: `sudo systemctl restart swapi`. 
+
 ## Testing
-Vårt fokus under testingen var å kunne vise til metoder for testing av en database og smart bruk av dette. Vi benyttet blant annet Proxyquire for å mocke importene i databasen. Dette var nødvendig fordi vi måtte unngå at disse kallet til databasen direkte.
+Vårt fokus under testingen var å kunne vise til metoder for testing av en database og smart bruk av dette.Teststacken vår er hovedsaklig mocha og chai,  vi benyttet blant annet Proxyquire for dependency-injection, som vil si at den mocker imports i funksjoner. Dette kan man se i massQueryControllerTest.js. Dette var nødvendig fordi vi måtte unngå at disse kallet til databasen direkte.
 
 ## Teknologi
-For å hoste databaseserveren har vi benyttet [NodeJS](https://nodejs.org/en/) og [Expressbilbioteket](https://expressjs.com/). Til å styre selve databasen, har vi benyttet [Sequelize](http://docs.sequelizejs.com/) som ORM for å mappe mellom våre objekter og databasen. Databasen baserer seg på [PostgreSQL](https://www.postgresql.org/), som har vist seg å være en godt, relasjonelt databasesystem.
+For å hoste databaseserveren har vi benyttet [NodeJS](https://nodejs.org/en/) og [Expressbilbioteket](https://expressjs.com/). Til å styre selve databasen, har vi benyttet [Sequelize](http://docs.sequelizejs.com/) som ORM for å mappe mellom våre objekter og databasen. Databasen baserer seg på [PostgreSQL](https://www.postgresql.org/), som har vist seg å være en godt, relasjonelt databasesystem.Grunnen til at vi valgte en relasjonell database foran feks mongodb med mongoose, var at swapi i
+utgangspunktet har mange relasjoner mellom objektene. Senere i prosjeket fant vi ut at relasjonene mellom objektene ikke var så veldig viktig for oss, men da var det litt for sent å snu. Hvis vi skulle gjort prosjektet om igjen ville vi nok gått for mongodb. Sequelize gir koden vår ganske mye mer kompleksitet enn det mongodb ville gjort. 
 
 ## Samarbeid
 Hver gruppe har bistått backenden med ett medlem hver. Grunnet varierende gruppestørrelser, har det vært ulik kapasitet til å bidra med dette. Likevel har vi kommunisert effektivt og bidratt med nødvendig funksjonalitet på individuelt nivå, samt samarbeidet på enkelte issues og merge requests. Siden vi alle er fra forskjellige grupper og dermed har ulike krav til frontend, har vi jobbet med mye ulik funksjonalitet. Som nevnt over, var dette derfor vi valgte å utvikle agilt ved å motta requests og issues fra gruppemedlemmer som behøvde nye funksjoner i applikasjonen. Dette fungerte godt for våre hensikter.
