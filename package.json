@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --compilers js:@babel/register ./src/tests/**",
     "build": "babel index.js -d dist && babel src -d dist/src && cp -r src/config dist/src",
     "start": "nodemon --exec babel-node index.js",
     "serve": "node dist/index.js",
@@ -35,6 +35,7 @@
     "eslint": "^5.8.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
+    "mocha": "^5.2.0",
     "nodemon": "^1.18.5"
   }
 }
