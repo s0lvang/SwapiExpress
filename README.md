@@ -1,4 +1,4 @@
-# Backend for gruppe 06, 25, 35
+# Backend for gruppe 06, 26, 35
 
 Apiet ligger [her](http://it2810-06.idi.ntnu.no/api/api)
 
