@@ -16,7 +16,7 @@ const allControllers = {
 };
 
 
-const paginateModel = (body, models) => {
+export const paginateModel = (body, models) => {
   const { page, limit } = body;
   const end = page * limit;
   const start = page * limit - limit;
@@ -28,13 +28,13 @@ const paginateModel = (body, models) => {
 };
 
 
-const getIdentifier = (value) => {
+export const getIdentifier = (value) => {
   let identifier = value.name || value.title;
   identifier = identifier || value.Transport.name;
   return identifier;
 };
 
-const orderedSort = (firstValue, secondValue, order) => {
+export const orderedSort = (firstValue, secondValue, order) => {
   const larger = order === 'ASC' ? 1 : -1;
   const smaller = order === 'ASC' ? -1 : 1;
   if (firstValue > secondValue) return larger;
@@ -42,7 +42,7 @@ const orderedSort = (firstValue, secondValue, order) => {
   return 0;
 };
 
-const sortModel = (body, models) => {
+export const sortModel = (body, models) => {
   const { order } = body;
   const sortedList = models.rows.sort((first, second) => {
     const firstIdentifier = getIdentifier(first);
@@ -56,14 +56,14 @@ const sortModel = (body, models) => {
   return sortedModel;
 };
 
-const processModel = (body, pureModel) => {
+export const processModel = (body, pureModel) => {
   const sortedModel = sortModel(body, pureModel);
   const paginatedModel = paginateModel(body, sortedModel);
   return paginatedModel;
 };
 
 // Queries all the controllers and sends one result
-export default {
+export const massQueryController = {
   // Queries based on the types wanted, e.g. 'Species, Characters'.
   async search(req, res) {
     const { checkedBoxes, limit } = req.body;

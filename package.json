@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers js:@babel/register ./src/tests/**",
+    "test": "mocha --compilers js:@babel/register --require @babel/polyfill ./src/tests/** ",
     "build": "babel index.js -d dist && babel src -d dist/src && cp -r src/config dist/src",
     "start": "nodemon --exec babel-node index.js",
     "serve": "node dist/index.js",
@@ -16,6 +16,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
     "body-parser": "^1.18.3",
+    "chai": "^4.2.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "morgan": "^1.9.1",
