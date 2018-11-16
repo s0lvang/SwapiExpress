@@ -15,7 +15,7 @@ export default {
       return species;
     })
       .then(species => res.status(200).send(species))
-      .catch(error => res.status(400).send(error));
+      .catch(() => res.status(400).send('Oopsie Woopsie we made a fucky wucky (400 bad request)'));
   },
   search(req) {
     const query = Object.keys(req.body).length ? req.body : req.query;

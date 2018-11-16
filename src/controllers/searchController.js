@@ -14,7 +14,7 @@ export default {
       .then((search) => {
         res.status(200).send(search);
       })
-      .catch(error => res.status(400).send(error));
+      .catch(() => res.status(400).send('Oopsie Woopsie we made a fucky wucky (400 bad request)'));
   },
   filterModels(req, res) {
     return Search.findAll({
@@ -29,7 +29,7 @@ export default {
       .then((search) => {
         res.status(200).send(search);
       })
-      .catch(error => res.status(400).send(error));
+      .catch(() => res.status(400).send('Oopsie Woopsie we made a fucky wucky (400 bad request)'));
   },
   saveSearch(searchUrl, searchString, model) {
     return Search.create({
@@ -41,6 +41,6 @@ export default {
   countAll(req, res) {
     return Search.count()
       .then(count => res.status(200).send({ count }))
-      .catch(error => res.status(400).send(error));
+      .catch(() => res.status(400).send('Oopsie Woopsie we made a fucky wucky (400 bad request)'));
   },
 };
