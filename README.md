@@ -9,7 +9,7 @@ Vår utviklingsprosess har vært basert på agilitet, da mange krav måtte oppfy
 Å kunne jobbe slik fungerte veldig bra. Det var enkelt å hoppe på et nytt issue, da bruken av teknologiene som vi hadde valgt generelt var lett å sette seg inn i. Å velge et issue var generelt uformelt, som gjorde at arbeidet på backenden var svært effektiv. Under utviklingen av hovedapplikasjonene var utviklingsmetodene generelt gjennomført med strengere konvensjoner. Dette kan leses mer om i de aktuelle prosjekt-repositoriene.
 
 ## Testing
-Vårt fokus under testingen var å kunne vise til metoder for testing av en database og smart bruk av dette. 
+Vårt fokus under testingen var å kunne vise til metoder for testing av en database og smart bruk av dette. Vi benyttet blant annet Proxyquire for å mocke importene i databasen. Dette var nødvendig fordi vi måtte unngå at disse kallet til databasen direkte.
 
 ## Teknologi
 For å hoste databaseserveren har vi benyttet [NodeJS](https://nodejs.org/en/) og [Expressbilbioteket](https://expressjs.com/). Til å styre selve databasen, har vi benyttet [Sequelize](http://docs.sequelizejs.com/) som ORM for å mappe mellom våre objekter og databasen. Databasen baserer seg på [PostgreSQL](https://www.postgresql.org/), som har vist seg å være en godt, relasjonelt databasesystem.
