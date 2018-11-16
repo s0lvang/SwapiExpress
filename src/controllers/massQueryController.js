@@ -30,7 +30,7 @@ const paginateModel = (body, models) => {
 
 const getIdentifier = (value) => {
   let identifier = value.name || value.title;
-  identifier = identifier || value['transport.name']; // value.transport
+  identifier = identifier || value.Transport.name;
   return identifier;
 };
 
