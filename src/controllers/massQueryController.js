@@ -73,7 +73,7 @@ export default {
       .then(awaitedModels => awaitedModels.map(model => model.rows));
     models = [].concat([], ...models);
 
-    searchController.saveSearch(req.body.search, checkedBoxes.join(', '));
+    searchController.saveSearch(null, req.body.search, checkedBoxes.join(', '));
     const pages = Math.round(models.length / limit);
     const pureModel = {
       pages,
