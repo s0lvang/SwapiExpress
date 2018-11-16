@@ -25,4 +25,5 @@ export default (app) => {
 
   app.get('/api/search', searchController.list);
   app.get('/api/search/count', searchController.countAll);
+  app.get('/api/search/:model', searchController.filterModels);
 };

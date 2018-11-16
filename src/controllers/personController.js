@@ -13,9 +13,8 @@ export default {
           // If user searches successfully, it will be saved in the database with query and model.
           searchController.saveSearch(req.originalUrl, req.query.search, 'people');
         }
-        return res.status(200).send(person);
+        return person;
       })
-
       .then(person => res.status(200).send(person))
       .catch(error => res.status(400).send(error));
   },
