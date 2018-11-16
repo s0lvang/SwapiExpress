@@ -73,13 +73,15 @@ export default {
       .then(awaitedModels => awaitedModels.map(model => model.rows));
     models = [].concat([], ...models);
 
-    searchController.saveSearch(null, req.body.search, checkedBoxes.join(', '));
     const pages = Math.round(models.length / limit);
     const pureModel = {
       pages,
       rows: models,
     };
     const processedModel = processModel(req.body, pureModel);
+
+    // Saves search if query is successful.
+    if (processedModel.rows.lenght > 0) searchController.saveSearch(null, req.body.search, checkedBoxes.join(', '));
     res.status(200).send(processedModel);
   },
 };
