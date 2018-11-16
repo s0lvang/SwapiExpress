@@ -20,8 +20,6 @@ swapi og setter den inn i databasen.
 ## Mål 
 Denne databasens mål var å delvis speile Star Wars API'et, kjent som [Swapi](https://swapi.co/), ved å bygge det opp på nytt med Node. Vi ville dekke så mange bruksområder som mulig, da de tre gruppene som benyttet seg av denne databasen hadde ulike planer for sine applikasjoner. Derfor har vi inkludert mye funksjonalitet som allerede var til stede i Swapi, men i tillegg utviklet annen funksjonalitet som vi følte var nødvendig.
 
-## Databasen
-
 ### Endepunkter
 * `/api/people`: Henter ut person objekter fra databasen
 * `/api/planets`: Henter ut planet objekter fra databasen
@@ -53,7 +51,7 @@ Vårt fokus under testingen var å kunne vise til metoder for testing av en data
 
 ## Teknologi
 For å hoste databaseserveren har vi benyttet [NodeJS](https://nodejs.org/en/) og [Expressbilbioteket](https://expressjs.com/). Til å styre selve databasen, har vi benyttet [Sequelize](http://docs.sequelizejs.com/) som ORM for å mappe mellom våre objekter og databasen. Databasen baserer seg på [PostgreSQL](https://www.postgresql.org/), som har vist seg å være en godt, relasjonelt databasesystem.Grunnen til at vi valgte en relasjonell database foran feks mongodb med mongoose, var at swapi i
-utgangspunktet har mange relasjoner mellom objektene. Senere i prosjeket fant vi ut at relasjonene mellom objektene ikke var så veldig viktig for oss, men da var det litt for sent å snu. Hvis vi skulle gjort prosjektet om igjen ville vi nok gått for mongodb. Sequelize gir koden vår ganske mye mer kompleksitet enn det mongodb ville gjort. 
+utgangspunktet har mange relasjoner mellom objektene. Senere i prosjeket fant vi ut at relasjonene mellom objektene ikke var så veldig viktig for oss, men da var det litt for sent å snu. Hvis vi skulle gjort prosjektet om igjen ville vi nok gått for mongodb. Sequelize gir koden vår ganske mye mer kompleksitet enn det mongodb ville gjort. Vi valgte akkurat postgresql foran andre relasjonelle databaser, pga tidligere erfaring.
 
 ## Samarbeid
 Hver gruppe har bistått backenden med ett medlem hver. Grunnet varierende gruppestørrelser, har det vært ulik kapasitet til å bidra med dette. Likevel har vi kommunisert effektivt og bidratt med nødvendig funksjonalitet på individuelt nivå, samt samarbeidet på enkelte issues og merge requests. Siden vi alle er fra forskjellige grupper og dermed har ulike krav til frontend, har vi jobbet med mye ulik funksjonalitet. Som nevnt over, var dette derfor vi valgte å utvikle agilt ved å motta requests og issues fra gruppemedlemmer som behøvde nye funksjoner i applikasjonen. Dette fungerte godt for våre hensikter.
