@@ -6,6 +6,9 @@ const search = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true,
     },
+    search_url: {
+      type: DataTypes.STRING,
+    },
     search_string: {
       type: DataTypes.STRING,
     },

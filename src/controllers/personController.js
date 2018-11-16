@@ -8,35 +8,36 @@ export default {
 
   list(req, res) {
     return this.search(req)
+      .then((person) => {
+        if (person && person.count > 0) {
+          // If user searches successfully, it will be saved in the database with query and model.
+          searchController.saveSearch(req.originalUrl, req.query.search, 'people');
+        }
+        return res.status(200).send(person);
+      })
+
       .then(person => res.status(200).send(person))
       .catch(error => res.status(400).send(error));
   },
   search(req) {
     const query = Object.keys(req.body).length ? req.body : req.query;
     const {
-      limit,
-      offset,
-      column,
-      value,
-      exclude,
-      search,
+      limit = 100,
+      offset = 0,
+      exclude = '',
+      search = '',
+      sortBy = 'id',
+      order = 'asc',
     } = query;
-    const excludeString = exclude || '';
     // Gets the search query from either POST or GET
     const searchString = `%${search}%`;
-    // const { saveSearch } = req.body;
-    // If there is a GET query, take these values
-    // Sets default order by values
-    const orderColumn = column || 'id';
-    const orderValue = value || 'ASC';
-    // Stops the mass post query from posting to the Search table, works for GET queries
-    // If a user searches, it will be saved in the database with query and model.
-    // if (saveSearch) searchController.saveSearch(search, 'people');
     return Character.findAndCountAll({
-      limit: limit || 100,
-      offset: offset || 0,
-      order: [[orderColumn, orderValue]],
+      limit,
+      offset,
       raw: true,
+      order: [ // Sorting by attribute and type
+        [sortBy.toLowerCase(), order.toUpperCase()],
+      ],
       where: {
         [Op.and]: [
           {
@@ -47,7 +48,7 @@ export default {
           {
             [Op.not]: {
               gender: {
-                [Op.or]: excludeString.split(','),
+                [Op.or]: exclude.split(','),
               },
             },
           },

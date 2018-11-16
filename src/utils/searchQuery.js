@@ -10,5 +10,4 @@ const searchQuery = (search, searchTerms) => {
 };
 
 
-
 export default searchQuery;
