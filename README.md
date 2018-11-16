@@ -1,6 +1,6 @@
 # Backend for gruppe 06, 25, 35
 
-Apiet ligger [her](http://it2810-06.idi.ntnu.no/api)
+Apiet ligger [her](http://it2810-06.idi.ntnu.no/api/api)
 
 ## Setup
 
@@ -38,7 +38,7 @@ Vår utviklingsprosess har vært basert på agilitet, da mange krav måtte oppfy
 Å kunne jobbe slik fungerte veldig bra. Det var enkelt å hoppe på et nytt issue, da bruken av teknologiene som vi hadde valgt generelt var lett å sette seg inn i. Å velge et issue var generelt uformelt, som gjorde at arbeidet på backenden var svært effektiv. Under utviklingen av hovedapplikasjonene var utviklingsmetodene generelt gjennomført med strengere konvensjoner. Dette kan leses mer om i de aktuelle prosjekt-repositoriene.
 
 ## Deployment
-Vi har satt opp en proxy i apache som ruter /api til port 8080. Vi har også satt opp en service som kjører node serveren vår, slik at du kan starte den med: `sudo systemctl restart swapi`. 
+Vi har satt opp en proxy i apache som ruter /api til port 8080, det er kanskje litt uheldig at apiet ligger på /api/api, men vi har valgt og ikke endre dette på grunn av regresjonen det medfører. Vi har også satt opp en service som kjører node serveren vår, slik at du kan starte den med: `sudo systemctl restart swapi`. 
 
 ## Testing
 Vårt fokus under testingen var å kunne vise til metoder for testing av en database og smart bruk av dette.Teststacken vår er hovedsaklig mocha og chai,  vi benyttet blant annet Proxyquire for dependency-injection, som vil si at den mocker imports i funksjoner. Dette kan man se i massQueryControllerTest.js. Dette var nødvendig fordi vi måtte unngå at disse kallet til databasen direkte.
