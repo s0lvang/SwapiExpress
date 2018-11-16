@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import db from '../models';
 
 const { Search } = db;
@@ -9,6 +10,21 @@ export default {
         ['id', 'DESC'],
       ],
       limit: 10,
+    })
+      .then((search) => {
+        res.status(200).send(search);
+      })
+      .catch(error => res.status(400).send(error));
+  },
+  filterModels(req, res) {
+    return Search.findAll({
+      order: [['id', 'DESC']],
+      limit: 10,
+      where: {
+        model: {
+          [Op.eq]: req.params.model,
+        },
+      },
     })
       .then((search) => {
         res.status(200).send(search);
