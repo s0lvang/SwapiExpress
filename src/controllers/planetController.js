@@ -9,7 +9,7 @@ export default {
   list(req, res) {
     this.search(req, res)
       .then((planet) => {
-        if (planet && planet.count > 0) {
+        if (planet.count && req.query.search) {
           // If user searches successfully, it will be saved in the database with query and model.
           searchController.saveSearch(
             req.originalUrl,
@@ -27,7 +27,7 @@ export default {
     const {
       limit = 100,
       offset = 0,
-      search = '',
+      search,
       sortBy = 'id',
       order = 'asc',
     } = query;

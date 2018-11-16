@@ -9,7 +9,7 @@ export default {
   list(req, res) {
     return this.search(req)
       .then((person) => {
-        if (person && person.count > 0) {
+        if (person.count && req.query.search) {
           // If user searches successfully, it will be saved in the database with query and model.
           searchController.saveSearch(req.originalUrl, req.query.search, 'people');
         }
@@ -25,7 +25,7 @@ export default {
       limit = 100,
       offset = 0,
       exclude = '',
-      search = '',
+      search,
       sortBy = 'id',
       order = 'asc',
     } = query;

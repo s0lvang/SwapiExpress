@@ -8,7 +8,7 @@ const { Film } = db;
 export default {
   list(req, res) {
     return this.search(req, res).then((film) => {
-      if (film && film.count > 0) {
+      if (film.count && req.query.search) {
         // If user searches successfully, it will be saved in the database with query and model.
         searchController.saveSearch(req.originalUrl, req.query.search, 'films');
       }
@@ -20,7 +20,7 @@ export default {
   search(req) {
     const query = Object.keys(req.body).length ? req.body : req.query;
     const {
-      sortBy = 'id', order = 'asc', limit = 100, offset = 0, search = '',
+      sortBy = 'id', order = 'asc', limit = 100, offset = 0, search,
     } = query;
     return Film
       .findAndCountAll({

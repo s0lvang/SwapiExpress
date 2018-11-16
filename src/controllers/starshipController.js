@@ -10,7 +10,7 @@ export default {
   list(req, res) {
     return this.search(req)
       .then((starship) => {
-        if (starship && starship.count > 0) {
+        if (starship.count && req.query.search) {
         // If user searches successfully, it will be saved in the database with query and model.
           searchController.saveSearch(req.originalUrl, req.query.search, 'starships');
         }
@@ -22,7 +22,7 @@ export default {
   search(req) {
     const query = Object.keys(req.body).length ? req.body : req.query;
     const {
-      sortBy = 'id', order = 'asc', search = '', limit = 100, offset = 0,
+      sortBy = 'id', order = 'asc', search, limit = 100, offset = 0,
     } = query;
     return Starship.findAndCountAll({
       limit,
