@@ -26,7 +26,6 @@ export default {
       .findAndCountAll({
         limit,
         offset,
-        raw: true,
         order: [ // Sorting by attribute and type
           [sortBy.toLowerCase(), order.toUpperCase()],
         ],

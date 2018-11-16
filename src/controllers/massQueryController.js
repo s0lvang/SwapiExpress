@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop, no-return-await, guard-for-in, no-restricted-syntax */
 import filmController from './filmController';
 import personController from './personController';
 import speciesController from './speciesController';

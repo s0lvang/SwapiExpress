@@ -25,9 +25,8 @@ export default {
       sortBy = 'id', order = 'asc', search = '', limit = 100, offset = 0,
     } = query;
     return Starship.findAndCountAll({
-      limit: limit || 0,
-      offset: offset || 1,
-      raw: true,
+      limit,
+      offset,
       order: [
         [sortBy.toLowerCase(), order.toUpperCase()],
       ],

@@ -37,7 +37,6 @@ export default {
     return Planet.findAndCountAll({
       limit,
       offset,
-      raw: true,
       order: [[sortBy.toLowerCase(), order.toUpperCase()]],
       where: {
         [Op.or]: searchQuery(search, ['name', 'terrain', 'name']),

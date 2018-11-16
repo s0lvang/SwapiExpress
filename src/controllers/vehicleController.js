@@ -24,9 +24,8 @@ export default {
       sortBy = 'id', order = 'asc', limit = 100, offset = 0, search = '',
     } = query;
     return Vehicle.findAndCountAll({
-      limit: limit || 100,
-      offset: offset || 0,
-      raw: true,
+      limit,
+      offset,
       order: [
         [sortBy.toLowerCase(), order.toUpperCase()],
       ],

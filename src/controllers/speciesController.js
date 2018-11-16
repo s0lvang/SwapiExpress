@@ -24,12 +24,11 @@ export default {
     } = query;
 
     return Species.findAndCountAll({
+      limit,
+      offset,
       order: [ // Sorting by attribute and type
         [sortBy.toLowerCase(), order.toUpperCase()],
       ],
-      limit,
-      offset,
-      raw: true,
       where: {
         [Op.or]: searchQuery(search, [
           'name',

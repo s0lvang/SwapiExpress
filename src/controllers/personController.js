@@ -34,7 +34,6 @@ export default {
     return Character.findAndCountAll({
       limit,
       offset,
-      raw: true,
       order: [ // Sorting by attribute and type
         [sortBy.toLowerCase(), order.toUpperCase()],
       ],
