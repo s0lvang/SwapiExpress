@@ -38,6 +38,7 @@
     "eslint-plugin-import": "^2.14.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.5",
+    "sequelize-test-helpers": "^1.0.6",
     "sinon": "^7.1.1"
   }
 }
