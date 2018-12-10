@@ -1,6 +1,7 @@
 # Backend for gruppe 06, 26, 35
 
 Apiet ligger [her](http://it2810-06.idi.ntnu.no/api/api)
+Link til frontend-repo (https://github.com/aslakhol/stargazer)
 
 ## Setup
 
